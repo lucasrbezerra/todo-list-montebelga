@@ -7,7 +7,14 @@ const pink = "#DE3361";
 const lightGreen = "#4CAF50";
 const darkWhite = "#D9D9D9";
 
+const sizes = {
+  navbarHeight: "5rem", // 96px
+  sidebarWidth: "5rem", // 80px
+}
+
+
 const theme = {
+  sizes,
   colors: {
     darkBlue,
     lightBlue,

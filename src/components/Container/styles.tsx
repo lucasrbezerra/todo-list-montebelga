@@ -1,22 +1,25 @@
 import styled from "styled-components";
 
-export const ContainerStyled = styled.div`
+export const Container = styled.div`
   height: 100vh;
   width: 100%;
-  background-color: ${({ theme }) => theme.colors.pink};
+  background-color: ${({ theme }) => theme.colors.darkWhite};
+
+  padding: 2rem;
+
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 0fr 0fr 12fr;
+  grid-template-rows: 0fr 0fr 12fr;
+  grid-template-areas:
+    "nav nav nav"
+    "sidebar main main"
+    "sidebar main main";
 `;
 
-export const Title = styled.h1`
-  color: ${({ theme }) => theme.colors.darkBlue};
-  padding: 0.5rem 1rem;
+export const Wrapper = styled.div`
+  height: 100%;
+  width: 100%;
+  background-color: tomato;
+  grid-area: main;
 `;
-
-export const Item = styled.p`
-  color: ${({ theme }) => theme.colors.darkWhite};
-  margin: 0.5rem 1rem;
-`;
-
-export const IconCadeirante = styled.i`
-  font-size: 2.5rem;
-  color: ${({ theme }) => theme.colors.lightGreen};
-`

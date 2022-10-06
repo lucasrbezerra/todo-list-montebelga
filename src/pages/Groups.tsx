@@ -1,5 +1,5 @@
 import React from "react";
 
-export default function Groups() {
+export function Groups() {
   return <div>Groups</div>;
 }

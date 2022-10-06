@@ -13,13 +13,13 @@ export const Container: React.FC<IContainer> = ({ title, names }) => {
       {names.map((name, index) => {
         if (name === "Game of Thrones") {
           return (
-            <Item>
+            <Item key={index}>
               GoT : {index} - {name}
             </Item>
           );
         } else {
           return (
-            <Item>
+            <Item key={index}>
               {index} - {name}
             </Item>
           );

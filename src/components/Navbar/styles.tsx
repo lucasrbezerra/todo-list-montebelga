@@ -7,4 +7,16 @@ export const NavbarContent = styled.div`
   color: ${({ theme }) => theme.colors.darkWhite};
 
   grid-area: nav;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: .5rem;
+`;
+
+export const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: 2rem;
 `;

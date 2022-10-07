@@ -10,20 +10,26 @@ const darkWhite = "#D9D9D9";
 const sizes = {
   navbarHeight: "5rem", // 96px
   sidebarWidth: "5rem", // 80px
-}
+};
 
+const colors = {
+  darkBlue,
+  lightBlue,
+  wine,
+  pink,
+  lightGreen,
+  darkWhite,
+};
+
+export interface Theme {
+  sizes: typeof sizes;
+  colors: typeof colors;
+}
 
 const theme = {
   sizes,
-  colors: {
-    darkBlue,
-    lightBlue,
-    wine,
-    pink,
-    lightGreen,
-    darkWhite,
-  },
-};
+  colors,
+} as Theme;
 
 export const Theme: React.FC<any> = ({ children }) => {
   return <ThemeProvider theme={theme}>{children}</ThemeProvider>;

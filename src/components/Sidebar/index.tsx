@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { SidebarButton, SidebarContent } from "./styles";
+import { Icon } from "../../components";
 
 interface ISidebar {}
 
@@ -10,7 +11,7 @@ const TYPES = {
 };
 
 export const Sidebar: React.FC<ISidebar> = ({}) => {
-  const [currentPage, setCurrentPage] = useState(TYPES['TASKS']);
+  const [currentPage, setCurrentPage] = useState(TYPES["TASKS"]);
 
   const handleChangePage = (page: string) => {
     setCurrentPage(page);
@@ -23,7 +24,7 @@ export const Sidebar: React.FC<ISidebar> = ({}) => {
           isActive={currentPage === TYPES["TASKS"]}
           onClick={() => handleChangePage(TYPES["TASKS"])}
         >
-          <i className="fas fa-plus"></i>
+          <Icon className="fas fa-tasks"></Icon>
           <p>Tarefas</p>
         </SidebarButton>
       </Link>
@@ -32,7 +33,7 @@ export const Sidebar: React.FC<ISidebar> = ({}) => {
           isActive={currentPage === TYPES["GROUPS"]}
           onClick={() => handleChangePage(TYPES["GROUPS"])}
         >
-          <i className="fas fa-folder-plus"></i>
+          <Icon className="fas fa-folder-plus"></Icon>
           <p>Grupos</p>
         </SidebarButton>
       </Link>

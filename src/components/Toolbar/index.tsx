@@ -1,16 +1,22 @@
-import React from "react";
-import { ButtonChip, Icon, SearchBar } from "../../components";
+import React, { useState } from "react";
+import { ButtonChip, Filter, Icon, SearchBar } from "../../components";
 import { Content, Title, Wrapper } from "./styles";
 
 interface IToolbar {}
 
 export const Toolbar: React.FC<IToolbar> = ({}) => {
+  const [openModal, setOpenModal] = useState(false);
+  
   const handleOpenFilters = () => {
-    console.log("Open Filters");
+    setOpenModal(true);
   };
 
   return (
     <Content>
+      <Filter
+        checked={openModal}
+        setChecked={setOpenModal}
+      />
       <Title>Lista de Tarefas</Title>
       <Wrapper>
         <SearchBar />

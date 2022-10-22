@@ -8,3 +8,4 @@ export * from "./Modal";
 export * from "./Forms";
 export * from "./Toolbar";
 export * from "./SearchBar";
+export * from "./Filter";

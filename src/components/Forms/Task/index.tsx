@@ -7,8 +7,7 @@ import dayjs, { Dayjs } from "dayjs";
 import "dayjs/locale/ru";
 import "dayjs/locale/pt";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 
 // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
 const top100Films = [
@@ -121,7 +120,7 @@ export const FormTask: React.FC<IFormTask> = ({}) => {
         </Grid>
         <Grid item xs={12}>
           <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt">
-            <DateTimePicker
+            <DatePicker
               label="Tempo Limite"
               value={date}
               onChange={handleChangeDate}

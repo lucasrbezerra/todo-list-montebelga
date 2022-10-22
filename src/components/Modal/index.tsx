@@ -8,13 +8,14 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { useTheme } from "styled-components";
 import { Theme } from "../../themes";
 import styled from "@emotion/styled";
-import { Grid } from "@mui/material";
+// import { Grid } from "@mui/material";
 
 interface IModal {
   checked: boolean;
   setChecked: (value: boolean) => void;
   body: React.ReactElement;
   title: string;
+  onSave: () => void;
 }
 
 export const Modal: React.FC<IModal> = ({
@@ -22,6 +23,7 @@ export const Modal: React.FC<IModal> = ({
   setChecked,
   body,
   title,
+  onSave,
 }) => {
   const theme = useTheme() as Theme;
 
@@ -30,6 +32,11 @@ export const Modal: React.FC<IModal> = ({
       background: theme.colors.darkBlue,
     },
   });
+
+  const handleSave = () => {
+    onSave();
+    setChecked(false);
+  };
 
   return (
     <CustomDialog
@@ -45,7 +52,7 @@ export const Modal: React.FC<IModal> = ({
       <DialogActions>
         <WrapperButtons>
           <Button onClick={() => setChecked(false)}>Cancelar</Button>
-          <Button onClick={() => setChecked(false)} autoFocus>
+          <Button onClick={handleSave} autoFocus>
             Salvar
           </Button>
         </WrapperButtons>

@@ -6,17 +6,14 @@ interface IToolbar {}
 
 export const Toolbar: React.FC<IToolbar> = ({}) => {
   const [openModal, setOpenModal] = useState(false);
-  
+
   const handleOpenFilters = () => {
     setOpenModal(true);
   };
 
   return (
     <Content>
-      <Filter
-        checked={openModal}
-        setChecked={setOpenModal}
-      />
+      <Filter checked={openModal} setChecked={setOpenModal} />
       <Title>Lista de Tarefas</Title>
       <Wrapper>
         <SearchBar />

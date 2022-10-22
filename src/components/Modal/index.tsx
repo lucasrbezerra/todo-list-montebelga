@@ -8,6 +8,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { useTheme } from "styled-components";
 import { Theme } from "../../themes";
 import styled from "@emotion/styled";
+import { Grid } from "@mui/material";
 
 interface IModal {
   checked: boolean;

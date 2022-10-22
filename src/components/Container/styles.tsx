@@ -20,6 +20,12 @@ export const Container = styled.div`
 export const Wrapper = styled.div`
   height: 100%;
   width: 100%;
-  background-color: tomato;
   grid-area: main;
+  background-color: tomato;
+`;
+
+export const Main = styled.div`
+  height: 90%;
+  width: 100%;
+  background-color: pink;
 `;

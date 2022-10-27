@@ -43,11 +43,22 @@ export const Button = styled.button`
 
   border: none;
   outline: none;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   transition: all 0.2s ease-in-out;
 
   &:hover {
     cursor: pointer;
     filter: brightness(0.8);
   }
-`
+`;
+
+export const ButtonActions = styled.i`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 1rem;
+  width: 1rem;
+  background-color: ${({ theme }) => theme.colors.lightBlue};
+  color: ${({ theme }) => theme.colors.wine};
+`;

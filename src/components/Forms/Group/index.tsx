@@ -1,31 +1,19 @@
-import { Autocomplete, Grid, styled, TextField } from "@mui/material";
-import { useState } from "react";
+import { Grid, styled, TextField } from "@mui/material";
 import { useTheme } from "styled-components";
 import { Theme } from "../../../themes";
 import { FormContent } from "./styles";
-import dayjs, { Dayjs } from "dayjs";
 import "dayjs/locale/ru";
 import "dayjs/locale/pt";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers";
+import { WrapperButtons } from "../../Modal/styles";
+import { Button } from "../../../components";
+import { useForm } from "react-hook-form";
 
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-const top100Films = [
-  { label: "The Shawshank Redemption", year: 1994 },
-  { label: "The Godfather", year: 1972 },
-  { label: "The Godfather: Part II", year: 1974 },
-  { label: "The Dark Knight", year: 2008 },
-];
-
-interface IFormGroup {}
-
-interface FilmOptionType {
-  label: string;
-  year: number;
+interface IFormGroup {
+  checked: boolean;
+  setChecked: (value: boolean) => void;
 }
 
-export const FormGroup: React.FC<IFormGroup> = ({}) => {
+export const FormGroup: React.FC<IFormGroup> = ({ checked, setChecked }) => {
   const theme = useTheme() as Theme;
 
   const CustomTextField = styled(TextField)({
@@ -57,8 +45,19 @@ export const FormGroup: React.FC<IFormGroup> = ({}) => {
     },
   });
 
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data: any) => {
+    console.log(data);
+  };
+
   return (
-    <FormContent>
+    <FormContent onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={3}>
         <Grid xs={12} item>
           <CustomTextField
@@ -67,7 +66,16 @@ export const FormGroup: React.FC<IFormGroup> = ({}) => {
             placeholder="Nome do grupo..."
             variant="standard"
             sx={{ width: "100%" }}
+            {...register("name")}
           />
+        </Grid>
+        <Grid xs={12} item>
+          <WrapperButtons>
+            <Button onClick={() => setChecked(false)}>Cancelar</Button>
+            <Button type="submit" autoFocus>
+              Salvar
+            </Button>
+          </WrapperButtons>
         </Grid>
       </Grid>
     </FormContent>

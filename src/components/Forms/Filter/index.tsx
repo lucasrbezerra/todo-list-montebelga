@@ -2,20 +2,34 @@ import React, { useEffect, useState } from "react";
 import { FormControlLabel, FormGroup, Checkbox } from "@mui/material";
 import styled from "@emotion/styled";
 import { useTheme } from "styled-components";
-import { FormContent, Title, Text } from "./styles";
+import { FormContent, Title, Text, WrapperButtons } from "./styles";
 import { Theme } from "../../../themes";
-import { DateRange } from "../../../components";
+import { Button, DateRange } from "../../../components";
+
+type Inputs = {
+  example: string;
+  exampleRequired: string;
+};
 
 interface IFormFilter {
-  saveForm: boolean;
+  checked: boolean;
+  setChecked: (value: boolean) => void;
 }
 
-export const FormFilter: React.FC<IFormFilter> = ({ saveForm }) => {
+export const FormFilter: React.FC<IFormFilter> = ({ checked, setChecked }) => {
   const theme = useTheme() as Theme;
 
   const [hasFinished, setHasFineshed] = useState(false);
   const [inProgress, setInProgress] = useState(false);
   const [selectDate, setSelectDate] = useState({ startDate: "", endDate: "" });
+
+  const handleFilters = () => {
+    console.log("filters: ", {
+      hasFinished,
+      inProgress,
+      selectDate,
+    });
+  };
 
   const handleChangeDate = (startDate: string, endDate: string) => {
     setSelectDate({
@@ -23,18 +37,6 @@ export const FormFilter: React.FC<IFormFilter> = ({ saveForm }) => {
       endDate,
     });
   };
-
-  useEffect(() => {
-  }, [saveForm]);
-  // useEffect(() => {
-  //   // console.log("saveForm", saveForm);
-
-  //   if (saveForm) {
-  //     console.log("hasFinished: ", hasFinished);
-  //     console.log("inProgress: ", inProgress);
-  //     console.log("selectDate: ", selectDate);
-  //   }
-  // }, [saveForm]);
 
   const CustomCheckbox = styled(Checkbox)({
     "&.Mui-checked": {
@@ -53,6 +55,7 @@ export const FormFilter: React.FC<IFormFilter> = ({ saveForm }) => {
           control={
             <CustomCheckbox
               color="primary"
+              value={hasFinished}
               checked={hasFinished}
               onChange={() => setHasFineshed(!hasFinished)}
             />
@@ -63,7 +66,7 @@ export const FormFilter: React.FC<IFormFilter> = ({ saveForm }) => {
           control={
             <CustomCheckbox
               color="primary"
-              checked={inProgress}
+              value={inProgress}
               onChange={() => setInProgress(!inProgress)}
             />
           }
@@ -72,6 +75,12 @@ export const FormFilter: React.FC<IFormFilter> = ({ saveForm }) => {
       </FormGroup>
       <Title>Período</Title>
       <DateRange onChange={handleChangeDate} />
+      <WrapperButtons>
+        <Button onClick={() => setChecked(false)}>Cancelar</Button>
+        <Button autoFocus onClick={handleFilters}>
+          Salvar
+        </Button>
+      </WrapperButtons>
     </FormContent>
   );
 };

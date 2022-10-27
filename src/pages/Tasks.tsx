@@ -6,7 +6,7 @@ export function Tasks() {
     <>
       <Toolbar />
       <Main>
-        <h1>Main</h1>
+        <h1>Tasks</h1>
       </Main>
     </>
   );

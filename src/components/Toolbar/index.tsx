@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { ButtonChip, Filter, Icon, SearchBar } from "../../components";
+import {
+  ButtonChip,
+  FormFilter,
+  Icon,
+  Modal,
+  SearchBar,
+} from "../../components";
 import { Content, Title, Wrapper } from "./styles";
 
 interface IToolbar {}
@@ -13,7 +19,12 @@ export const Toolbar: React.FC<IToolbar> = ({}) => {
 
   return (
     <Content>
-      <Filter checked={openModal} setChecked={setOpenModal} />
+      <Modal
+        checked={openModal}
+        setChecked={setOpenModal}
+        title={"Filtros"}
+        body={<FormFilter checked={openModal} setChecked={setOpenModal} />}
+      />
       <Title>Lista de Tarefas</Title>
       <Wrapper>
         <SearchBar />

@@ -8,6 +8,9 @@ import "dayjs/locale/ru";
 import "dayjs/locale/pt";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { WrapperButtons } from "../../Modal/styles";
+import { Button } from "../../../components";
+import { useForm } from "react-hook-form";
 
 // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
 const top100Films = [
@@ -17,14 +20,17 @@ const top100Films = [
   { label: "The Dark Knight", year: 2008 },
 ];
 
-interface IFormTask {}
+interface IFormTask {
+  checked: boolean;
+  setChecked: (value: boolean) => void;
+}
 
 interface FilmOptionType {
   label: string;
   year: number;
 }
 
-export const FormTask: React.FC<IFormTask> = ({}) => {
+export const FormTask: React.FC<IFormTask> = ({ checked, setChecked }) => {
   const theme = useTheme() as Theme;
 
   const CustomTextField = styled(TextField)({
@@ -97,16 +103,31 @@ export const FormTask: React.FC<IFormTask> = ({}) => {
     setDate(newDate);
   };
 
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data: any) => {
+    console.log({
+      date: date.toISOString(),
+      data,
+    });
+  };
+
   return (
-    <FormContent>
+    <FormContent onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={3}>
         <Grid xs={12} item>
           <CustomTextField
-            // id="standard-basic"
+            id="standard-basic"
             label="Nome"
             placeholder="Nome da tarefa..."
             variant="standard"
             sx={{ width: "100%" }}
+            {...register("name")}
           />
         </Grid>
         <Grid xs={12} item>
@@ -114,7 +135,12 @@ export const FormTask: React.FC<IFormTask> = ({}) => {
             {...flatProps}
             id="flat-demo"
             renderInput={(params) => (
-              <CustomTextField {...params} label="Grupos" variant="standard" />
+              <CustomTextField
+                {...params}
+                label="Grupos"
+                variant="standard"
+                {...register("group")}
+              />
             )}
           />
         </Grid>
@@ -132,6 +158,14 @@ export const FormTask: React.FC<IFormTask> = ({}) => {
               )}
             />
           </LocalizationProvider>
+        </Grid>
+        <Grid xs={12} item>
+          <WrapperButtons>
+            <Button onClick={() => setChecked(false)}>Cancelar</Button>
+            <Button type="submit" autoFocus>
+              Salvar
+            </Button>
+          </WrapperButtons>
         </Grid>
       </Grid>
     </FormContent>

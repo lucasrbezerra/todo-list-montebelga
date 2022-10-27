@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { Logo, ButtonChip, Icon, Modal, FormTask, FormGroup } from "../../components";
+import {
+  Logo,
+  ButtonChip,
+  Icon,
+  Modal,
+  FormTask,
+  FormGroup,
+} from "../../components";
 import { NavbarContent, Wrapper } from "./styles";
 
 interface INavbar {}
@@ -28,8 +35,16 @@ export const Navbar: React.FC<INavbar> = ({}) => {
       <Modal
         checked={openModal}
         setChecked={setOpenModal}
-        title={modalType === MODAL_TYPE['TASK'] ? "Criar tarefa" : "Criar grupo"}
-        body={modalType === MODAL_TYPE['TASK'] ? <FormTask /> : <FormGroup />}
+        title={
+          modalType === MODAL_TYPE["TASK"] ? "Criar tarefa" : "Criar grupo"
+        }
+        body={
+          modalType === MODAL_TYPE["TASK"] ? (
+            <FormTask checked={openModal} setChecked={setOpenModal} />
+          ) : (
+            <FormGroup checked={openModal} setChecked={setOpenModal} />
+          )
+        }
       />
       <Logo src="/img/Logo.svg" alt="Logo"></Logo>
       <Wrapper>

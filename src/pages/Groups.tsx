@@ -8,7 +8,7 @@ export function Groups() {
   const [groups, setGroups] = useState<Group[]>([
     {
       id: 1,
-      title: "Compras",
+      title: "The Witcher 3",
       createAt: "2022-10-27T02:14:45.057Z",
       updatedAt: "2022-10-27T02:14:45.057Z",
       tasks: [
@@ -28,11 +28,19 @@ export function Groups() {
           createAt: "2022-10-27T02:14:45.057Z",
           updatedAt: "2022-10-27T02:14:45.057Z",
         },
+        {
+          id: 3,
+          title: "Jogos & Games",
+          hasFinished: false,
+          groupOwner: 1,
+          createAt: "2022-10-27T02:14:45.057Z",
+          updatedAt: "2022-10-27T02:14:45.057Z",
+        },
       ],
     },
     {
       id: 2,
-      title: "Compras",
+      title: "Bloons TD 2",
       createAt: "2022-10-27T02:14:45.057Z",
       updatedAt: "2022-10-27T02:14:45.057Z",
       tasks: [
@@ -56,7 +64,7 @@ export function Groups() {
     },
     {
       id: 3,
-      title: "Compras",
+      title: "Red Dead Redemption",
       createAt: "2022-10-27T02:14:45.057Z",
       updatedAt: "2022-10-27T02:14:45.057Z",
       tasks: [
@@ -178,13 +186,17 @@ export function Groups() {
 
   return (
     <>
-      <Toolbar />
+      <Toolbar title="Lista de grupos" />
       <Main>
         <Grid container spacing={3}>
           {groups.map((group, index) => {
             return (
-              <Grid item xs={4}>
-                <CardGroup group={group} key={index} />
+              <Grid item xs={12} sm={12} md={6} lg={6} xl={4} key={index}>
+                <CardGroup
+                  group={group}
+                  groups={groups}
+                  setGroups={setGroups}
+                />
               </Grid>
             );
           })}

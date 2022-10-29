@@ -57,8 +57,16 @@ export const ButtonActions = styled.i`
   align-items: center;
   justify-content: center;
 
-  height: 1rem;
-  width: 1rem;
-  background-color: ${({ theme }) => theme.colors.lightBlue};
+  height: 2rem;
+  width: 2rem;
+  background-color: ${({ theme }) => theme.colors.darkBlue};
   color: ${({ theme }) => theme.colors.wine};
+  border-radius: 50%;
+  margin-left: 0.5rem;
+  transition: all 0.2s ease-in;
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.wine};
+    color: ${({ theme }) => theme.colors.darkBlue};
+    cursor: pointer;
+  }
 `;

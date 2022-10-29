@@ -8,9 +8,11 @@ import {
 } from "../../components";
 import { Content, Title, Wrapper } from "./styles";
 
-interface IToolbar {}
+interface IToolbar {
+  title: string;
+}
 
-export const Toolbar: React.FC<IToolbar> = ({}) => {
+export const Toolbar: React.FC<IToolbar> = ({ title }) => {
   const [openModal, setOpenModal] = useState(false);
 
   const handleOpenFilters = () => {
@@ -25,7 +27,7 @@ export const Toolbar: React.FC<IToolbar> = ({}) => {
         title={"Filtros"}
         body={<FormFilter checked={openModal} setChecked={setOpenModal} />}
       />
-      <Title>Lista de Tarefas</Title>
+      <Title>{title}</Title>
       <Wrapper>
         <SearchBar />
         <ButtonChip onClick={handleOpenFilters}>

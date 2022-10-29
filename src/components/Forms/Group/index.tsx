@@ -7,13 +7,21 @@ import "dayjs/locale/pt";
 import { WrapperButtons } from "../../Modal/styles";
 import { Button } from "../../../components";
 import { useForm } from "react-hook-form";
+import { Group } from "../../../interfaces";
 
 interface IFormGroup {
   checked: boolean;
   setChecked: (value: boolean) => void;
+  group?: Group;
+  type: "edit" | "register";
 }
 
-export const FormGroup: React.FC<IFormGroup> = ({ checked, setChecked }) => {
+export const FormGroup: React.FC<IFormGroup> = ({
+  checked,
+  setChecked,
+  group,
+  type,
+}) => {
   const theme = useTheme() as Theme;
 
   const CustomTextField = styled(TextField)({
@@ -53,7 +61,11 @@ export const FormGroup: React.FC<IFormGroup> = ({ checked, setChecked }) => {
   } = useForm();
 
   const onSubmit = (data: any) => {
-    console.log(data);
+    if (type === "edit") {
+      console.log("editando", data);
+    } else {
+      console.log("criando", data);
+    }
   };
 
   return (
@@ -66,7 +78,7 @@ export const FormGroup: React.FC<IFormGroup> = ({ checked, setChecked }) => {
             placeholder="Nome do grupo..."
             variant="standard"
             sx={{ width: "100%" }}
-            {...register("name")}
+            {...register("name", { value: group?.title })}
           />
         </Grid>
         <Grid xs={12} item>

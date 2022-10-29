@@ -9,3 +9,4 @@ export * from "./Forms";
 export * from "./Toolbar";
 export * from "./SearchBar";
 export * from "./Cards";
+export * from "./Feedback";

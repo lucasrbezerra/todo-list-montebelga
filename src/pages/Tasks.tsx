@@ -4,7 +4,7 @@ import { Main, Toolbar } from "../components";
 export function Tasks() {
   return (
     <>
-      <Toolbar />
+      <Toolbar title="Lista de tarefas" />
       <Main>
         <h1>Tasks</h1>
       </Main>

@@ -42,7 +42,7 @@ export const Navbar: React.FC<INavbar> = ({}) => {
           modalType === MODAL_TYPE["TASK"] ? (
             <FormTask checked={openModal} setChecked={setOpenModal} />
           ) : (
-            <FormGroup checked={openModal} setChecked={setOpenModal} />
+            <FormGroup checked={openModal} setChecked={setOpenModal} type="register" />
           )
         }
       />

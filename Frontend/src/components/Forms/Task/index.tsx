@@ -135,7 +135,7 @@ export const FormTask: React.FC<IFormTask> = ({
       const edited_task = {
         title: data.title,
         limitTime: addDays(new Date(date.toString()), -1).toISOString(),
-        groupOwner: {
+        GroupId: {
           title: data.group,
         },
       };
@@ -144,7 +144,7 @@ export const FormTask: React.FC<IFormTask> = ({
       const created_task = {
         title: data.title,
         limitTime: addDays(new Date(date.toString()), -1).toISOString(),
-        groupOwner: {
+        GroupId: {
           title: data.group,
         },
       };
@@ -169,14 +169,14 @@ export const FormTask: React.FC<IFormTask> = ({
           <CustomAutocomplete
             {...flatProps}
             id="flat-demo"
-            defaultValue={task?.groupOwner.title}
+            defaultValue={task?.GroupId.title}
             renderInput={(params) => (
               <CustomTextField
                 {...params}
                 label="Grupos"
                 variant="standard"
-                defaultValue={task?.groupOwner.title}
-                {...register("group", { value: task?.groupOwner.title })}
+                defaultValue={task?.GroupId.title}
+                {...register("group", { value: task?.GroupId.title })}
               />
             )}
           />

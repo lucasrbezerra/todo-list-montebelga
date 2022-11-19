@@ -9,7 +9,7 @@ import {
   FinishLabel,
   FinishTask,
   GroupIcon,
-  GroupOwner,
+  GroupId,
   GroupTitle,
   LimitTime,
   TaskActions,
@@ -51,7 +51,7 @@ export const CardTask: React.FC<ICardTask> = ({ task, tasks, setTasks }) => {
     let edit_tasks = [...tasks];
     edit_tasks[index].title = value.title;
     edit_tasks[index].limitTime = value.limitTime;
-    edit_tasks[index].groupOwner = value.groupOwner;
+    edit_tasks[index].GroupId = value.GroupId;
     setTasks(edit_tasks);
     setOpenModal(false);
   };
@@ -87,10 +87,10 @@ export const CardTask: React.FC<ICardTask> = ({ task, tasks, setTasks }) => {
         }
       />
       <Content hasFinished={checked}>
-        <GroupOwner hasFinished={checked}>
+        <GroupId hasFinished={checked}>
           <GroupIcon hasFinished={checked} className="fas fa-layer-group" />
-          <GroupTitle>{task.groupOwner.title}</GroupTitle>
-        </GroupOwner>
+          <GroupTitle>{task.GroupId.title}</GroupTitle>
+        </GroupId>
         <LimitTime hasFinished={checked}>
           <TimeIcon hasFinished={checked} className="far fa-calendar" />
           <TimeDisplay hasFinished={checked}>

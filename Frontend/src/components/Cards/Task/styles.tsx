@@ -21,7 +21,7 @@ export const Content = styled.div`
     ${(props: Props) => (props.hasFinished ? "#4CAF50" : "transparent")};
 `;
 
-export const GroupOwner = styled.div`
+export const GroupId = styled.div`
   position: absolute;
   top: -1.5rem;
   left: 1.5rem;

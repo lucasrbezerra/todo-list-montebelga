@@ -5,7 +5,7 @@ type GroupTitle = {
 export interface EditableTask {
   title: string;
   limitTime: string;
-  groupOwner: GroupTitle;
+  GroupId: GroupTitle;
 }
 
 export interface Task {
@@ -13,15 +13,15 @@ export interface Task {
   title: string;
   limitTime: string;
   hasFinished: boolean;
-  groupOwner: GroupTitle;
-  createAt: string;
+  GroupId: GroupTitle;
+  createdAt: string;
   updatedAt: string;
 }
 
 export interface Group {
   id: number | string;
   title: string;
-  createAt: string;
+  createdAt: string;
   updatedAt: string;
   tasks: Task[];
 }

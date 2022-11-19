@@ -10,7 +10,7 @@ export function Groups() {
     {
       id: 1,
       title: "The Witcher 3",
-      createAt: "2022-10-27T02:14:45.057Z",
+      createdAt: "2022-10-27T02:14:45.057Z",
       updatedAt: "2022-10-27T02:14:45.057Z",
       tasks: [
         {
@@ -18,10 +18,10 @@ export function Groups() {
           title: "Jogos & Dungeons",
           hasFinished: false,
           limitTime: "2022-10-27T02:14:45.057Z",
-          groupOwner: {
+          GroupId: {
             title: "The Witcher 3",
           },
-          createAt: "2022-10-27T02:14:45.057Z",
+          createdAt: "2022-10-27T02:14:45.057Z",
           updatedAt: "2022-10-27T02:14:45.057Z",
         },
         {
@@ -29,10 +29,10 @@ export function Groups() {
           title: "Jogos & Games",
           hasFinished: false,
           limitTime: "2022-10-27T02:14:45.057Z",
-          groupOwner: {
+          GroupId: {
             title: "The Witcher 3",
           },
-          createAt: "2022-10-27T02:14:45.057Z",
+          createdAt: "2022-10-27T02:14:45.057Z",
           updatedAt: "2022-10-27T02:14:45.057Z",
         },
         {
@@ -40,10 +40,10 @@ export function Groups() {
           title: "Jogos & Games",
           hasFinished: false,
           limitTime: "2022-10-27T02:14:45.057Z",
-          groupOwner: {
+          GroupId: {
             title: "The Witcher 3",
           },
-          createAt: "2022-10-27T02:14:45.057Z",
+          createdAt: "2022-10-27T02:14:45.057Z",
           updatedAt: "2022-10-27T02:14:45.057Z",
         },
       ],
@@ -51,7 +51,7 @@ export function Groups() {
     {
       id: 2,
       title: "Bloons TD 2",
-      createAt: "2022-10-27T02:14:45.057Z",
+      createdAt: "2022-10-27T02:14:45.057Z",
       updatedAt: "2022-10-27T02:14:45.057Z",
       tasks: [
         {
@@ -59,10 +59,10 @@ export function Groups() {
           title: "Jogos & Dungeons",
           hasFinished: false,
           limitTime: "2022-10-27T02:14:45.057Z",
-          groupOwner: {
+          GroupId: {
             title: "The Witcher 3",
           },
-          createAt: "2022-10-27T02:14:45.057Z",
+          createdAt: "2022-10-27T02:14:45.057Z",
           updatedAt: "2022-10-27T02:14:45.057Z",
         },
         {
@@ -70,10 +70,10 @@ export function Groups() {
           title: "Jogos & Games",
           hasFinished: false,
           limitTime: "2022-10-27T02:14:45.057Z",
-          groupOwner: {
+          GroupId: {
             title: "The Witcher 3",
           },
-          createAt: "2022-10-27T02:14:45.057Z",
+          createdAt: "2022-10-27T02:14:45.057Z",
           updatedAt: "2022-10-27T02:14:45.057Z",
         },
       ],
@@ -81,7 +81,7 @@ export function Groups() {
     {
       id: 3,
       title: "Red Dead Redemption",
-      createAt: "2022-10-27T02:14:45.057Z",
+      createdAt: "2022-10-27T02:14:45.057Z",
       updatedAt: "2022-10-27T02:14:45.057Z",
       tasks: [
         {
@@ -89,10 +89,10 @@ export function Groups() {
           title: "Jogos & Dungeons",
           hasFinished: false,
           limitTime: "2022-10-27T02:14:45.057Z",
-          groupOwner: {
+          GroupId: {
             title: "The Witcher 3",
           },
-          createAt: "2022-10-27T02:14:45.057Z",
+          createdAt: "2022-10-27T02:14:45.057Z",
           updatedAt: "2022-10-27T02:14:45.057Z",
         },
         {
@@ -100,10 +100,10 @@ export function Groups() {
           title: "Jogos & Games",
           hasFinished: false,
           limitTime: "2022-10-27T02:14:45.057Z",
-          groupOwner: {
+          GroupId: {
             title: "The Witcher 3",
           },
-          createAt: "2022-10-27T02:14:45.057Z",
+          createdAt: "2022-10-27T02:14:45.057Z",
           updatedAt: "2022-10-27T02:14:45.057Z",
         },
       ],
@@ -111,7 +111,7 @@ export function Groups() {
     {
       id: 3,
       title: "Compras",
-      createAt: "2022-10-27T02:14:45.057Z",
+      createdAt: "2022-10-27T02:14:45.057Z",
       updatedAt: "2022-10-27T02:14:45.057Z",
       tasks: [
         {
@@ -119,10 +119,10 @@ export function Groups() {
           title: "Jogos & Dungeons",
           hasFinished: false,
           limitTime: "2022-10-27T02:14:45.057Z",
-          groupOwner: {
+          GroupId: {
             title: "The Witcher 3",
           },
-          createAt: "2022-10-27T02:14:45.057Z",
+          createdAt: "2022-10-27T02:14:45.057Z",
           updatedAt: "2022-10-27T02:14:45.057Z",
         },
         {
@@ -130,10 +130,10 @@ export function Groups() {
           title: "Jogos & Games",
           hasFinished: false,
           limitTime: "2022-10-27T02:14:45.057Z",
-          groupOwner: {
+          GroupId: {
             title: "The Witcher 3",
           },
-          createAt: "2022-10-27T02:14:45.057Z",
+          createdAt: "2022-10-27T02:14:45.057Z",
           updatedAt: "2022-10-27T02:14:45.057Z",
         },
       ],
@@ -141,7 +141,7 @@ export function Groups() {
     {
       id: 3,
       title: "Compras",
-      createAt: "2022-10-27T02:14:45.057Z",
+      createdAt: "2022-10-27T02:14:45.057Z",
       updatedAt: "2022-10-27T02:14:45.057Z",
       tasks: [
         {
@@ -149,10 +149,10 @@ export function Groups() {
           title: "Jogos & Dungeons",
           hasFinished: false,
           limitTime: "2022-10-27T02:14:45.057Z",
-          groupOwner: {
+          GroupId: {
             title: "The Witcher 3",
           },
-          createAt: "2022-10-27T02:14:45.057Z",
+          createdAt: "2022-10-27T02:14:45.057Z",
           updatedAt: "2022-10-27T02:14:45.057Z",
         },
         {
@@ -160,10 +160,10 @@ export function Groups() {
           title: "Jogos & Games",
           hasFinished: false,
           limitTime: "2022-10-27T02:14:45.057Z",
-          groupOwner: {
+          GroupId: {
             title: "The Witcher 3",
           },
-          createAt: "2022-10-27T02:14:45.057Z",
+          createdAt: "2022-10-27T02:14:45.057Z",
           updatedAt: "2022-10-27T02:14:45.057Z",
         },
       ],
@@ -171,7 +171,7 @@ export function Groups() {
     {
       id: 3,
       title: "Compras",
-      createAt: "2022-10-27T02:14:45.057Z",
+      createdAt: "2022-10-27T02:14:45.057Z",
       updatedAt: "2022-10-27T02:14:45.057Z",
       tasks: [
         {
@@ -179,10 +179,10 @@ export function Groups() {
           title: "Jogos & Dungeons",
           hasFinished: false,
           limitTime: "2022-10-27T02:14:45.057Z",
-          groupOwner: {
+          GroupId: {
             title: "The Witcher 3",
           },
-          createAt: "2022-10-27T02:14:45.057Z",
+          createdAt: "2022-10-27T02:14:45.057Z",
           updatedAt: "2022-10-27T02:14:45.057Z",
         },
         {
@@ -190,10 +190,10 @@ export function Groups() {
           title: "Jogos & Games",
           hasFinished: false,
           limitTime: "2022-10-27T02:14:45.057Z",
-          groupOwner: {
+          GroupId: {
             title: "The Witcher 3",
           },
-          createAt: "2022-10-27T02:14:45.057Z",
+          createdAt: "2022-10-27T02:14:45.057Z",
           updatedAt: "2022-10-27T02:14:45.057Z",
         },
       ],
@@ -201,7 +201,7 @@ export function Groups() {
     {
       id: 3,
       title: "Compras",
-      createAt: "2022-10-27T02:14:45.057Z",
+      createdAt: "2022-10-27T02:14:45.057Z",
       updatedAt: "2022-10-27T02:14:45.057Z",
       tasks: [
         {
@@ -209,10 +209,10 @@ export function Groups() {
           title: "Jogos & Dungeons",
           hasFinished: false,
           limitTime: "2022-10-27T02:14:45.057Z",
-          groupOwner: {
+          GroupId: {
             title: "The Witcher 3",
           },
-          createAt: "2022-10-27T02:14:45.057Z",
+          createdAt: "2022-10-27T02:14:45.057Z",
           updatedAt: "2022-10-27T02:14:45.057Z",
         },
         {
@@ -220,10 +220,10 @@ export function Groups() {
           title: "Jogos & Games",
           hasFinished: false,
           limitTime: "2022-10-27T02:14:45.057Z",
-          groupOwner: {
+          GroupId: {
             title: "The Witcher 3",
           },
-          createAt: "2022-10-27T02:14:45.057Z",
+          createdAt: "2022-10-27T02:14:45.057Z",
           updatedAt: "2022-10-27T02:14:45.057Z",
         },
       ],

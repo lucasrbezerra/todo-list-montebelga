@@ -11,10 +11,10 @@ export function Tasks() {
       title: "Andar",
       limitTime: "2022-10-27T02:14:45.057Z",
       hasFinished: false,
-      groupOwner: {
+      GroupId: {
         title: "The Witcher 1",
       },
-      createAt: "2022-10-27T02:14:45.057Z",
+      createdAt: "2022-10-27T02:14:45.057Z",
       updatedAt: "2022-10-27T02:14:45.057Z",
     },
     {
@@ -22,10 +22,10 @@ export function Tasks() {
       title: "Banhar",
       limitTime: "2022-10-27T02:14:45.057Z",
       hasFinished: true,
-      groupOwner: {
+      GroupId: {
         title: "The Witcher 3",
       },
-      createAt: "2022-10-27T02:14:45.057Z",
+      createdAt: "2022-10-27T02:14:45.057Z",
       updatedAt: "2022-10-27T02:14:45.057Z",
     },
     {
@@ -33,10 +33,10 @@ export function Tasks() {
       title: "Correr",
       limitTime: "2022-10-27T02:14:45.057Z",
       hasFinished: true,
-      groupOwner: {
+      GroupId: {
         title: "The Witcher 3",
       },
-      createAt: "2022-10-27T02:14:45.057Z",
+      createdAt: "2022-10-27T02:14:45.057Z",
       updatedAt: "2022-10-27T02:14:45.057Z",
     },
     {
@@ -44,10 +44,10 @@ export function Tasks() {
       title: "Deitar",
       limitTime: "2022-10-27T02:14:45.057Z",
       hasFinished: false,
-      groupOwner: {
+      GroupId: {
         title: "The Witcher 3",
       },
-      createAt: "2022-10-27T02:14:45.057Z",
+      createdAt: "2022-10-27T02:14:45.057Z",
       updatedAt: "2022-10-27T02:14:45.057Z",
     },
   ]);

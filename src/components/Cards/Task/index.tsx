@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Checkbox } from "@mui/material";
-import { Task } from "../../../interfaces";
+import { EditableTask, Task } from "../../../interfaces";
 import { getFormatedDate } from "../../../services";
 import {
   ActionsWrapper,
@@ -39,12 +39,20 @@ export const CardTask: React.FC<ICardTask> = ({ task, tasks, setTasks }) => {
   };
 
   const onDelete = () => {
-    console.log("onDelete: ", task);
+    const index = tasks.indexOf(task);
+    let sliced_tasks = [...tasks];
+    sliced_tasks.splice(index, 1);
+    setTasks(sliced_tasks);
     setOpenDialog(false);
   };
 
-  const onEdit = (value: any) => {
-    console.log("onEdit: ", value);
+  const onEdit = (value: EditableTask) => {
+    const index = tasks.indexOf(task);
+    let edit_tasks = [...tasks];
+    edit_tasks[index].title = value.title;
+    edit_tasks[index].limitTime = value.limitTime;
+    edit_tasks[index].groupOwner = value.groupOwner;
+    setTasks(edit_tasks);
     setOpenModal(false);
   };
 

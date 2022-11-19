@@ -6,12 +6,13 @@ import { FormContent } from "./styles";
 import dayjs, { Dayjs } from "dayjs";
 import "dayjs/locale/ru";
 import "dayjs/locale/pt";
+import { addDays } from "date-fns";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { WrapperButtons } from "../../Modal/styles";
 import { Button } from "../../../components";
 import { useForm } from "react-hook-form";
-import { Task } from "../../../interfaces";
+import { EditableTask, Task } from "../../../interfaces";
 
 // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
 const top100Films = [
@@ -26,7 +27,7 @@ interface IFormTask {
   checked: boolean;
   setChecked: (value: boolean) => void;
   task?: Task;
-  onEdit: (new_title: string) => void;
+  onEdit?: (data: EditableTask) => void;
   type: "edit" | "register";
 }
 
@@ -107,10 +108,18 @@ export const FormTask: React.FC<IFormTask> = ({
     options: top100Films.map((option: FilmOptionType) => option.label),
   };
 
-  const [date, setDate] = useState<Dayjs>(dayjs(new Date().toISOString()));
+  const [date, setDate] = useState<Dayjs>(
+    dayjs(
+      type === "edit"
+        ? addDays(
+            new Date(task?.limitTime.toString() || ""),
+            task ? 1 : 0
+          ).toISOString()
+        : new Date().toISOString()
+    )
+  );
 
   const handleChangeDate = (newDate: any) => {
-    console.log("newDate: ", newDate?.toISOString());
     setDate(newDate);
   };
 
@@ -122,13 +131,24 @@ export const FormTask: React.FC<IFormTask> = ({
   } = useForm();
 
   const onSubmit = (data: any) => {
-    if (type === "edit") {
-      onEdit(data);
+    if (type === "edit" && onEdit) {
+      const edited_task = {
+        title: data.title,
+        limitTime: addDays(new Date(date.toString()), -1).toISOString(),
+        groupOwner: {
+          title: data.group,
+        },
+      };
+      onEdit(edited_task);
     } else {
-      console.log("criando: ", {
-        date: date.toISOString(),
-        data,
-      });
+      const created_task = {
+        title: data.title,
+        limitTime: addDays(new Date(date.toString()), -1).toISOString(),
+        groupOwner: {
+          title: data.group,
+        },
+      };
+      console.log("register: ", created_task);
     }
   };
 
@@ -149,11 +169,13 @@ export const FormTask: React.FC<IFormTask> = ({
           <CustomAutocomplete
             {...flatProps}
             id="flat-demo"
+            defaultValue={task?.groupOwner.title}
             renderInput={(params) => (
               <CustomTextField
                 {...params}
                 label="Grupos"
                 variant="standard"
+                defaultValue={task?.groupOwner.title}
                 {...register("group", { value: task?.groupOwner.title })}
               />
             )}

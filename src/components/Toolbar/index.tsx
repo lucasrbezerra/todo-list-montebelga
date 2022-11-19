@@ -6,13 +6,15 @@ import {
   Modal,
   SearchBar,
 } from "../../components";
+import { Task, Group } from "../../interfaces";
 import { Content, Title, Wrapper } from "./styles";
 
 interface IToolbar {
   title: string;
+  onSearch: (value: string) => void;
 }
 
-export const Toolbar: React.FC<IToolbar> = ({ title }) => {
+export const Toolbar: React.FC<IToolbar> = ({ title, onSearch }) => {
   const [openModal, setOpenModal] = useState(false);
 
   const handleOpenFilters = () => {
@@ -29,7 +31,7 @@ export const Toolbar: React.FC<IToolbar> = ({ title }) => {
       />
       <Title>{title}</Title>
       <Wrapper>
-        <SearchBar />
+        <SearchBar onSearch={onSearch} />
         <ButtonChip onClick={handleOpenFilters}>
           <Icon className="fas fa-filter"></Icon>
           <p>Filtros</p>

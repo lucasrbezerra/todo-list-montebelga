@@ -13,7 +13,7 @@ interface IFormGroup {
   checked: boolean;
   setChecked: (value: boolean) => void;
   group?: Group;
-  onEdit: (new_title: string) => void;
+  onEdit?: (new_title: string) => void;
   type: "edit" | "register";
 }
 
@@ -63,7 +63,7 @@ export const FormGroup: React.FC<IFormGroup> = ({
   } = useForm();
 
   const onSubmit = (data: any) => {
-    if (type === "edit") {
+    if (type === "edit" && onEdit) {
       onEdit(data["title"]);
     } else {
       console.log("criando", data);

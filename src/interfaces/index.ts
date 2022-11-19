@@ -2,6 +2,12 @@ type GroupTitle = {
   title: string;
 };
 
+export interface EditableTask {
+  title: string;
+  limitTime: string;
+  groupOwner: GroupTitle;
+}
+
 export interface Task {
   id: number | string;
   title: string;

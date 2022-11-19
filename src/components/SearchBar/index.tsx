@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { Icon, Input, Wrapper } from "./styles";
 
-interface ISearchBar {}
+interface ISearchBar {
+  onSearch: (value: string) => void;
+}
 
-export const SearchBar: React.FC<ISearchBar> = ({}) => {
+export const SearchBar: React.FC<ISearchBar> = ({ onSearch }) => {
   const [input, setInput] = useState("");
 
   const handleSearch = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(evt.target.value);
     setInput(evt.target.value);
+    onSearch(evt.target.value);
   };
 
   return (

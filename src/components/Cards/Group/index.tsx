@@ -40,6 +40,15 @@ export const CardGroup: React.FC<ICardGroup> = ({
     let sliced_groups = [...groups];
     sliced_groups.splice(index, 1);
     setGroups(sliced_groups);
+    setOpenDialog(false);
+  };
+
+  const onEdit = (new_title: string) => {
+    const index = groups.indexOf(group);
+    let edit_groups = [...groups];
+    edit_groups[index].title = new_title;
+    setGroups(edit_groups);
+    setOpenModal(false);
   };
 
   const handleDelete = () => {
@@ -48,7 +57,6 @@ export const CardGroup: React.FC<ICardGroup> = ({
 
   const handleEdit = () => {
     setOpenModal(true);
-    console.log("edit: ", group.id);
   };
 
   return (
@@ -57,6 +65,7 @@ export const CardGroup: React.FC<ICardGroup> = ({
         open={openDialog}
         setOpen={setOpenDialog}
         onAgree={() => onDelete()}
+        type="grupo"
       />
       <Modal
         checked={openModal}
@@ -67,6 +76,7 @@ export const CardGroup: React.FC<ICardGroup> = ({
             checked={openModal}
             setChecked={setOpenModal}
             group={group}
+            onEdit={onEdit}
             type="edit"
           />
         }

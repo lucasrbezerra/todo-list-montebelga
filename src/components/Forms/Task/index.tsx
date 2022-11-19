@@ -11,6 +11,7 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { WrapperButtons } from "../../Modal/styles";
 import { Button } from "../../../components";
 import { useForm } from "react-hook-form";
+import { Task } from "../../../interfaces";
 
 // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
 const top100Films = [
@@ -18,11 +19,15 @@ const top100Films = [
   { label: "The Godfather", year: 1972 },
   { label: "The Godfather: Part II", year: 1974 },
   { label: "The Dark Knight", year: 2008 },
+  { label: "The Witcher 3", year: 2008 },
 ];
 
 interface IFormTask {
   checked: boolean;
   setChecked: (value: boolean) => void;
+  task?: Task;
+  onEdit: (new_title: string) => void;
+  type: "edit" | "register";
 }
 
 interface FilmOptionType {
@@ -30,7 +35,13 @@ interface FilmOptionType {
   year: number;
 }
 
-export const FormTask: React.FC<IFormTask> = ({ checked, setChecked }) => {
+export const FormTask: React.FC<IFormTask> = ({
+  checked,
+  setChecked,
+  task,
+  onEdit,
+  type,
+}) => {
   const theme = useTheme() as Theme;
 
   const CustomTextField = styled(TextField)({
@@ -111,10 +122,14 @@ export const FormTask: React.FC<IFormTask> = ({ checked, setChecked }) => {
   } = useForm();
 
   const onSubmit = (data: any) => {
-    console.log({
-      date: date.toISOString(),
-      data,
-    });
+    if (type === "edit") {
+      onEdit(data);
+    } else {
+      console.log("criando: ", {
+        date: date.toISOString(),
+        data,
+      });
+    }
   };
 
   return (
@@ -127,7 +142,7 @@ export const FormTask: React.FC<IFormTask> = ({ checked, setChecked }) => {
             placeholder="Nome da tarefa..."
             variant="standard"
             sx={{ width: "100%" }}
-            {...register("name")}
+            {...register("title", { value: task?.title })}
           />
         </Grid>
         <Grid xs={12} item>
@@ -139,7 +154,7 @@ export const FormTask: React.FC<IFormTask> = ({ checked, setChecked }) => {
                 {...params}
                 label="Grupos"
                 variant="standard"
-                {...register("group")}
+                {...register("group", { value: task?.groupOwner.title })}
               />
             )}
           />

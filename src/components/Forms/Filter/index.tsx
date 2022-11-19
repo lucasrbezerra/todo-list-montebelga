@@ -67,6 +67,7 @@ export const FormFilter: React.FC<IFormFilter> = ({ checked, setChecked }) => {
             <CustomCheckbox
               color="primary"
               value={inProgress}
+              checked={inProgress}
               onChange={() => setInProgress(!inProgress)}
             />
           }

@@ -13,6 +13,7 @@ interface IFormGroup {
   checked: boolean;
   setChecked: (value: boolean) => void;
   group?: Group;
+  onEdit: (new_title: string) => void;
   type: "edit" | "register";
 }
 
@@ -20,6 +21,7 @@ export const FormGroup: React.FC<IFormGroup> = ({
   checked,
   setChecked,
   group,
+  onEdit,
   type,
 }) => {
   const theme = useTheme() as Theme;
@@ -62,7 +64,7 @@ export const FormGroup: React.FC<IFormGroup> = ({
 
   const onSubmit = (data: any) => {
     if (type === "edit") {
-      console.log("editando", data);
+      onEdit(data["title"]);
     } else {
       console.log("criando", data);
     }
@@ -74,11 +76,11 @@ export const FormGroup: React.FC<IFormGroup> = ({
         <Grid xs={12} item>
           <CustomTextField
             id="standard-basic"
-            label="Nome"
-            placeholder="Nome do grupo..."
+            label="Título"
+            placeholder="Título do grupo..."
             variant="standard"
             sx={{ width: "100%" }}
-            {...register("name", { value: group?.title })}
+            {...register("title", { value: group?.title })}
           />
         </Grid>
         <Grid xs={12} item>

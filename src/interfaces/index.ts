@@ -1,8 +1,13 @@
+type GroupTitle = {
+  title: string;
+};
+
 export interface Task {
   id: number | string;
   title: string;
+  limitTime: string;
   hasFinished: boolean;
-  groupOwner: number;
+  groupOwner: GroupTitle;
   createAt: string;
   updatedAt: string;
 }

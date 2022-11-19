@@ -1,11 +1,129 @@
-const Database = require("../database");
+const db = require("../database");
 
 module.exports = {
-  async create(req, res) {},
+  async create(req, res) {
+    var errors = [];
+    if (!req.body.title) {
+      errors.push("No title specified");
+    }
 
-  async list(req, res) {},
+    if (!req.body.limitTime) {
+      errors.push("No limitTime specified");
+    }
 
-  async edit(req, res) {},
+    if (errors.length) {
+      res.status(400).json({ error: errors.join(",") });
+      return;
+    }
 
-  async delete(req, res) {},
+    const data = {
+      title: req.body.title,
+      limitTime: req.body.limitTime,
+      hasFinished: false,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      GroupId: req.body.GroupId || null,
+    };
+    var sql = `
+        INSERT INTO tasks (title, limitTime, hasFinished, createdAt, updatedAt, GroupId) 
+        VALUES (?,?,?,?,?,?) 
+        `;
+    var params = [
+      data.title,
+      data.limitTime,
+      data.hasFinished,
+      data.createdAt,
+      data.updatedAt,
+      data.GroupId,
+    ];
+    db.run(sql, params, function (err, result) {
+      if (err) {
+        res.status(400).json({ error: err.message });
+        return;
+      }
+      res.json({
+        message: "success",
+        data: data,
+        id: this.lastID,
+      });
+    });
+  },
+
+  async list(req, res) {
+    var sql = "select * from tasks";
+    var params = [];
+    db.all(sql, params, (err, rows) => {
+      if (err) {
+        res.status(400).json({ error: err.message });
+        return;
+      }
+      res.json({
+        message: "success",
+        data: rows,
+      });
+    });
+  },
+
+  async edit(req, res) {
+    var data = {
+      title: req.body.title,
+      limitTime: req.body.limitTime,
+      GroupId: req.body.groupId,
+    };
+    const sql = `
+      UPDATE tasks set 
+        title = COALESCE(?,title),
+        limitTime: COALESCE(?,limitTime),
+        GroupId = COALESCE(?,GroupId),
+        updatedAt = COALESCE(?,updatedAt)
+        WHERE TaskId = ?
+    `;
+    const params = [
+      data.title,
+      data.limitTime,
+      data.GroupId,
+      new Date().toDateString(),
+      req.params.id,
+    ];
+    db.run(sql, params, function (err, result) {
+      if (err) {
+        res.status(400).json({ error: res.message });
+        return;
+      }
+      res.json({
+        message: "success",
+        data: data,
+        changes: this.changes,
+      });
+    });
+  },
+
+  async delete(req, res) {
+    db.run(
+      "DELETE FROM tasks WHERE TaskId = ?",
+      req.params.id,
+      function (err, result) {
+        if (err) {
+          res.status(400).json({ error: res.message });
+          return;
+        }
+        res.json({ message: "deleted", changes: this.changes });
+      }
+    );
+  },
+
+  async findById(req, res) {
+    var sql = "select * from tasks where TaskId = ?";
+    var params = [req.params.id];
+    db.get(sql, params, (err, row) => {
+      if (err) {
+        res.status(400).json({ error: err.message });
+        return;
+      }
+      res.json({
+        message: "success",
+        data: row,
+      });
+    });
+  },
 };

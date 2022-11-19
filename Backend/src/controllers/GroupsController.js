@@ -87,8 +87,8 @@ module.exports = {
     var sql = "select * from groups where GroupId = ?";
     var params = [req.params.id];
     db.get(sql, params, (err, row) => {
-      if (err) {
-        res.status(400).json({ error: err.message });
+      if (err || !row) {
+        res.status(400).json({ error: err?.message || "Not Found" });
         return;
       }
       res.json({

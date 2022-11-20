@@ -1,4 +1,4 @@
-import { Group } from "../../../interfaces";
+import { Group, Task } from "../../../interfaces";
 import {
   Content,
   Head,
@@ -19,7 +19,8 @@ import {
   Modal,
   TaskBand,
 } from "../../../components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { deleteGroup, editGroup, getTasksByGroup } from "../../../api";
 
 interface ICardGroup {
   group: Group;
@@ -34,21 +35,66 @@ export const CardGroup: React.FC<ICardGroup> = ({
 }) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [tasksGroup, setTasksGroups] = useState<Task[]>([]);
 
-  const onDelete = () => {
-    const index = groups.indexOf(group);
-    let sliced_groups = [...groups];
-    sliced_groups.splice(index, 1);
-    setGroups(sliced_groups);
-    setOpenDialog(false);
+  const getGroupTasks = async () => {
+    try {
+      const response = await getTasksByGroup(group.GroupId);
+      if (response.status === 200) {
+        setTasksGroups(response.data.data);
+      } else {
+        console.error("erro on get tasks by group ");
+      }
+    } catch (error) {
+      console.error("erro on get tasks by group ", error);
+    }
   };
 
-  const onEdit = (new_title: string) => {
-    const index = groups.indexOf(group);
-    let edit_groups = [...groups];
-    edit_groups[index].title = new_title;
-    setGroups(edit_groups);
-    setOpenModal(false);
+  useEffect(() => {
+    getGroupTasks();
+  }, []);
+
+  const onDelete = async () => {
+    try {
+      const response = await deleteGroup(group.GroupId);
+      if (response.status === 200) {
+        const index = groups.indexOf(group);
+        let sliced_groups = [...groups];
+        sliced_groups.splice(index, 1);
+        setGroups(sliced_groups);
+        setOpenDialog(false);
+      } else {
+        console.log("error on delete group");
+      }
+    } catch (error) {
+      console.log("error on delete group", error);
+    }
+  };
+
+  const onEdit = async (new_title: string) => {
+    try {
+      const response = await editGroup({ title: new_title }, group.GroupId);
+      if (response.status === 200) {
+        const index = groups.indexOf(group);
+        let edit_groups = [...groups];
+        edit_groups[index].title = new_title;
+        edit_groups[index].updatedAt = new Date().toISOString();
+        setGroups(edit_groups);
+        setOpenModal(false);
+      } else {
+        console.log("error on edit group");
+      }
+    } catch (error) {
+      console.log("error on edit group", error);
+    }
+  };
+
+  const convertTime = () => {
+    let date_now = new Date();
+    let createDate = new Date(group.createdAt);
+    let new_time = Math.abs(date_now.getTime() - createDate.getTime());
+    let diffHour = Math.ceil(new_time / (1000 * 3600));
+    return `há ${diffHour} horas`;
   };
 
   const handleDelete = () => {
@@ -86,7 +132,7 @@ export const CardGroup: React.FC<ICardGroup> = ({
           <Image className="fas fa-layer-group"></Image>
           <InfosWrapper ml=".8rem">
             <Title>{group.title}</Title>
-            <Subtitle>há 36 minutos</Subtitle>
+            <Subtitle>{convertTime()}</Subtitle>
           </InfosWrapper>
         </InfosWrapper>
         <Actions>
@@ -99,7 +145,7 @@ export const CardGroup: React.FC<ICardGroup> = ({
       </Head>
       <Divider />
       <TasksContent>
-        {group.tasks.map((task, index) => {
+        {tasksGroup.map((task, index) => {
           return <TaskBand task={task} key={index} />;
         })}
       </TasksContent>

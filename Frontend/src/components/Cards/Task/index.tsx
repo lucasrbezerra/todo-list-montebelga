@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Checkbox } from "@mui/material";
-import { EditableTask, Task } from "../../../interfaces";
+import { EditableTask, Group, Task } from "../../../interfaces";
 import { getFormatedDate } from "../../../services";
 import {
   ActionsWrapper,
@@ -22,6 +22,7 @@ import {
 } from "./styles";
 import { IconCircle, IconCircleChecked } from "../TaskBand/styles";
 import { DialogConfirm, FormTask, Modal } from "../../../components";
+import { deleteTask, editTask, finishTask, getGroupById } from "../../../api";
 
 interface ICardTask {
   task: Task;
@@ -30,30 +31,72 @@ interface ICardTask {
 }
 
 export const CardTask: React.FC<ICardTask> = ({ task, tasks, setTasks }) => {
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(Boolean(task.hasFinished));
   const [openDialog, setOpenDialog] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [groupOwner, setGroupOwner] = useState<Group | null>(null);
 
-  const handleCheck = () => {
-    setChecked((checked) => !checked);
+  const getGroupOwner = async () => {
+    try {
+      const { data } = await getGroupById(task.GroupId);
+      setGroupOwner(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const onDelete = () => {
-    const index = tasks.indexOf(task);
-    let sliced_tasks = [...tasks];
-    sliced_tasks.splice(index, 1);
-    setTasks(sliced_tasks);
-    setOpenDialog(false);
+  useEffect(() => {
+    getGroupOwner();
+  }, []);
+
+  const handleCheck = async () => {
+    try {
+      const response = await finishTask(!checked, task.TaskId);
+      if (response.status === 200) {
+        setChecked((checked) => !checked);
+      } else {
+        console.log("error on check");
+      }
+    } catch (error) {
+      console.log("error on check: ", error);
+    }
   };
 
-  const onEdit = (value: EditableTask) => {
-    const index = tasks.indexOf(task);
-    let edit_tasks = [...tasks];
-    edit_tasks[index].title = value.title;
-    edit_tasks[index].limitTime = value.limitTime;
-    edit_tasks[index].GroupId = value.GroupId;
-    setTasks(edit_tasks);
-    setOpenModal(false);
+  const onDelete = async () => {
+    try {
+      const response = await deleteTask(task.TaskId);
+      if (response.status === 200) {
+        const index = tasks.indexOf(task);
+        let sliced_tasks = [...tasks];
+        sliced_tasks.splice(index, 1);
+        setTasks(sliced_tasks);
+        setOpenDialog(false);
+      } else {
+        console.error("error on delete task");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const onEdit = async (new_task: EditableTask) => {
+    try {
+      const response = await editTask(new_task, task.TaskId);
+      if (response.status === 200) {
+        const index = tasks.indexOf(task);
+        let edit_tasks = [...tasks];
+        edit_tasks[index].title = new_task.title;
+        edit_tasks[index].limitTime = new_task.limitTime;
+        edit_tasks[index].GroupId = new_task.GroupId;
+        edit_tasks[index].updatedAt = new Date().toISOString();
+        setTasks(edit_tasks);
+        setOpenModal(false);
+      } else {
+        console.error("error on edit task");
+      }
+    } catch (error) {
+      console.error("error on edit task");
+    }
   };
 
   const handleDelete = () => {
@@ -89,7 +132,7 @@ export const CardTask: React.FC<ICardTask> = ({ task, tasks, setTasks }) => {
       <Content hasFinished={checked}>
         <GroupId hasFinished={checked}>
           <GroupIcon hasFinished={checked} className="fas fa-layer-group" />
-          <GroupTitle>{task.GroupId.title}</GroupTitle>
+          <GroupTitle>{groupOwner?.title}</GroupTitle>
         </GroupId>
         <LimitTime hasFinished={checked}>
           <TimeIcon hasFinished={checked} className="far fa-calendar" />

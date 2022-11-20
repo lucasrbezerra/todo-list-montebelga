@@ -1,236 +1,28 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Grid, Collapse } from "@mui/material";
 import { TransitionGroup } from "react-transition-group";
 import { Main, Toolbar } from "../components";
 import { CardGroup } from "../components/Cards";
-import { Group } from "../interfaces";
+import { GroupsContext } from "../contexts";
+import { getGroups } from "../api";
+// import { Group } from "../interfaces";
 
 export function Groups() {
-  const [groups, setGroups] = useState<Group[]>([
-    {
-      id: 1,
-      title: "The Witcher 3",
-      createdAt: "2022-10-27T02:14:45.057Z",
-      updatedAt: "2022-10-27T02:14:45.057Z",
-      tasks: [
-        {
-          id: 1,
-          title: "Jogos & Dungeons",
-          hasFinished: false,
-          limitTime: "2022-10-27T02:14:45.057Z",
-          GroupId: {
-            title: "The Witcher 3",
-          },
-          createdAt: "2022-10-27T02:14:45.057Z",
-          updatedAt: "2022-10-27T02:14:45.057Z",
-        },
-        {
-          id: 2,
-          title: "Jogos & Games",
-          hasFinished: false,
-          limitTime: "2022-10-27T02:14:45.057Z",
-          GroupId: {
-            title: "The Witcher 3",
-          },
-          createdAt: "2022-10-27T02:14:45.057Z",
-          updatedAt: "2022-10-27T02:14:45.057Z",
-        },
-        {
-          id: 3,
-          title: "Jogos & Games",
-          hasFinished: false,
-          limitTime: "2022-10-27T02:14:45.057Z",
-          GroupId: {
-            title: "The Witcher 3",
-          },
-          createdAt: "2022-10-27T02:14:45.057Z",
-          updatedAt: "2022-10-27T02:14:45.057Z",
-        },
-      ],
-    },
-    {
-      id: 2,
-      title: "Bloons TD 2",
-      createdAt: "2022-10-27T02:14:45.057Z",
-      updatedAt: "2022-10-27T02:14:45.057Z",
-      tasks: [
-        {
-          id: 1,
-          title: "Jogos & Dungeons",
-          hasFinished: false,
-          limitTime: "2022-10-27T02:14:45.057Z",
-          GroupId: {
-            title: "The Witcher 3",
-          },
-          createdAt: "2022-10-27T02:14:45.057Z",
-          updatedAt: "2022-10-27T02:14:45.057Z",
-        },
-        {
-          id: 2,
-          title: "Jogos & Games",
-          hasFinished: false,
-          limitTime: "2022-10-27T02:14:45.057Z",
-          GroupId: {
-            title: "The Witcher 3",
-          },
-          createdAt: "2022-10-27T02:14:45.057Z",
-          updatedAt: "2022-10-27T02:14:45.057Z",
-        },
-      ],
-    },
-    {
-      id: 3,
-      title: "Red Dead Redemption",
-      createdAt: "2022-10-27T02:14:45.057Z",
-      updatedAt: "2022-10-27T02:14:45.057Z",
-      tasks: [
-        {
-          id: 1,
-          title: "Jogos & Dungeons",
-          hasFinished: false,
-          limitTime: "2022-10-27T02:14:45.057Z",
-          GroupId: {
-            title: "The Witcher 3",
-          },
-          createdAt: "2022-10-27T02:14:45.057Z",
-          updatedAt: "2022-10-27T02:14:45.057Z",
-        },
-        {
-          id: 2,
-          title: "Jogos & Games",
-          hasFinished: false,
-          limitTime: "2022-10-27T02:14:45.057Z",
-          GroupId: {
-            title: "The Witcher 3",
-          },
-          createdAt: "2022-10-27T02:14:45.057Z",
-          updatedAt: "2022-10-27T02:14:45.057Z",
-        },
-      ],
-    },
-    {
-      id: 3,
-      title: "Compras",
-      createdAt: "2022-10-27T02:14:45.057Z",
-      updatedAt: "2022-10-27T02:14:45.057Z",
-      tasks: [
-        {
-          id: 1,
-          title: "Jogos & Dungeons",
-          hasFinished: false,
-          limitTime: "2022-10-27T02:14:45.057Z",
-          GroupId: {
-            title: "The Witcher 3",
-          },
-          createdAt: "2022-10-27T02:14:45.057Z",
-          updatedAt: "2022-10-27T02:14:45.057Z",
-        },
-        {
-          id: 2,
-          title: "Jogos & Games",
-          hasFinished: false,
-          limitTime: "2022-10-27T02:14:45.057Z",
-          GroupId: {
-            title: "The Witcher 3",
-          },
-          createdAt: "2022-10-27T02:14:45.057Z",
-          updatedAt: "2022-10-27T02:14:45.057Z",
-        },
-      ],
-    },
-    {
-      id: 3,
-      title: "Compras",
-      createdAt: "2022-10-27T02:14:45.057Z",
-      updatedAt: "2022-10-27T02:14:45.057Z",
-      tasks: [
-        {
-          id: 1,
-          title: "Jogos & Dungeons",
-          hasFinished: false,
-          limitTime: "2022-10-27T02:14:45.057Z",
-          GroupId: {
-            title: "The Witcher 3",
-          },
-          createdAt: "2022-10-27T02:14:45.057Z",
-          updatedAt: "2022-10-27T02:14:45.057Z",
-        },
-        {
-          id: 2,
-          title: "Jogos & Games",
-          hasFinished: false,
-          limitTime: "2022-10-27T02:14:45.057Z",
-          GroupId: {
-            title: "The Witcher 3",
-          },
-          createdAt: "2022-10-27T02:14:45.057Z",
-          updatedAt: "2022-10-27T02:14:45.057Z",
-        },
-      ],
-    },
-    {
-      id: 3,
-      title: "Compras",
-      createdAt: "2022-10-27T02:14:45.057Z",
-      updatedAt: "2022-10-27T02:14:45.057Z",
-      tasks: [
-        {
-          id: 1,
-          title: "Jogos & Dungeons",
-          hasFinished: false,
-          limitTime: "2022-10-27T02:14:45.057Z",
-          GroupId: {
-            title: "The Witcher 3",
-          },
-          createdAt: "2022-10-27T02:14:45.057Z",
-          updatedAt: "2022-10-27T02:14:45.057Z",
-        },
-        {
-          id: 2,
-          title: "Jogos & Games",
-          hasFinished: false,
-          limitTime: "2022-10-27T02:14:45.057Z",
-          GroupId: {
-            title: "The Witcher 3",
-          },
-          createdAt: "2022-10-27T02:14:45.057Z",
-          updatedAt: "2022-10-27T02:14:45.057Z",
-        },
-      ],
-    },
-    {
-      id: 3,
-      title: "Compras",
-      createdAt: "2022-10-27T02:14:45.057Z",
-      updatedAt: "2022-10-27T02:14:45.057Z",
-      tasks: [
-        {
-          id: 1,
-          title: "Jogos & Dungeons",
-          hasFinished: false,
-          limitTime: "2022-10-27T02:14:45.057Z",
-          GroupId: {
-            title: "The Witcher 3",
-          },
-          createdAt: "2022-10-27T02:14:45.057Z",
-          updatedAt: "2022-10-27T02:14:45.057Z",
-        },
-        {
-          id: 2,
-          title: "Jogos & Games",
-          hasFinished: false,
-          limitTime: "2022-10-27T02:14:45.057Z",
-          GroupId: {
-            title: "The Witcher 3",
-          },
-          createdAt: "2022-10-27T02:14:45.057Z",
-          updatedAt: "2022-10-27T02:14:45.057Z",
-        },
-      ],
-    },
-  ]);
-
+  const { groups, setGroups } = useContext(GroupsContext);
   const [search, setSearch] = useState<string>("");
+
+  const getAllGroups = async () => {
+    try {
+      const { data } = await getGroups();
+      setGroups(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllGroups();
+  }, []);
 
   const groupTransitionProps = {
     appear: false,

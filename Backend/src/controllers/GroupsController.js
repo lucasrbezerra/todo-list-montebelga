@@ -98,4 +98,14 @@ module.exports = {
       });
     });
   },
+
+  async deleteAllGroups(req, res) {
+    db.run("delete from groups", [], function (err, result) {
+      if (err) {
+        res.status(400).json({ error: res.message });
+        return;
+      }
+      res.json({ message: "deleted all", changes: this.changes });
+    });
+  },
 };

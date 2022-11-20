@@ -26,7 +26,6 @@ export const Wrapper = styled.div`
 export const Main = styled.div`
   height: 90%;
   width: 100%;
-  background-color: pink;
 
   overflow-y: scroll;
   overflow-x: hidden;

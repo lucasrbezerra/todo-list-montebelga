@@ -1,58 +1,27 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Collapse, Grid } from "@mui/material";
 import { CardTask, Main, Toolbar } from "../components";
 import { Task } from "../interfaces";
 import { TransitionGroup } from "react-transition-group";
+import { getTasks } from "../api";
+import { TasksContext } from "../contexts";
 
 export function Tasks() {
-  const [tasks, setTasks] = useState<Task[]>([
-    {
-      id: 1,
-      title: "Andar",
-      limitTime: "2022-10-27T02:14:45.057Z",
-      hasFinished: false,
-      GroupId: {
-        title: "The Witcher 1",
-      },
-      createdAt: "2022-10-27T02:14:45.057Z",
-      updatedAt: "2022-10-27T02:14:45.057Z",
-    },
-    {
-      id: 2,
-      title: "Banhar",
-      limitTime: "2022-10-27T02:14:45.057Z",
-      hasFinished: true,
-      GroupId: {
-        title: "The Witcher 3",
-      },
-      createdAt: "2022-10-27T02:14:45.057Z",
-      updatedAt: "2022-10-27T02:14:45.057Z",
-    },
-    {
-      id: 3,
-      title: "Correr",
-      limitTime: "2022-10-27T02:14:45.057Z",
-      hasFinished: true,
-      GroupId: {
-        title: "The Witcher 3",
-      },
-      createdAt: "2022-10-27T02:14:45.057Z",
-      updatedAt: "2022-10-27T02:14:45.057Z",
-    },
-    {
-      id: 4,
-      title: "Deitar",
-      limitTime: "2022-10-27T02:14:45.057Z",
-      hasFinished: false,
-      GroupId: {
-        title: "The Witcher 3",
-      },
-      createdAt: "2022-10-27T02:14:45.057Z",
-      updatedAt: "2022-10-27T02:14:45.057Z",
-    },
-  ]);
-
+  const { tasks, setTasks } = useContext(TasksContext);
   const [search, setSearch] = useState<string>("");
+
+  const getAllTasks = async () => {
+    try {
+      const { data } = await getTasks();
+      setTasks(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllTasks();
+  }, []);
 
   const groupTransitionProps = {
     appear: false,

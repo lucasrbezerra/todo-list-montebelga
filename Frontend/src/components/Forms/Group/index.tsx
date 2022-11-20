@@ -14,6 +14,7 @@ interface IFormGroup {
   setChecked: (value: boolean) => void;
   group?: Group;
   onEdit?: (new_title: string) => void;
+  onCreate?: (title: string) => void;
   type: "edit" | "register";
 }
 
@@ -22,6 +23,7 @@ export const FormGroup: React.FC<IFormGroup> = ({
   setChecked,
   group,
   onEdit,
+  onCreate,
   type,
 }) => {
   const theme = useTheme() as Theme;

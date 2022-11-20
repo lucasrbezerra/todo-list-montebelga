@@ -35,7 +35,7 @@ function createTable(db) {
             hasFinished BOOLEAN,
             createdAt TEXT,
             updatedAt TEXT,
-            GroupId INTEGER REFERENCES groups (GroupId) ON DELETE CASCADE ON UPDATE CASCADE
+            GroupId INTEGER REFERENCES groups (GroupId) ON DELETE CASCADE
         );
     `),
   ]);

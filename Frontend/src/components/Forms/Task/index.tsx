@@ -1,5 +1,5 @@
 import { Autocomplete, Grid, styled, TextField } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTheme } from "styled-components";
 import { Theme } from "../../../themes";
 import { FormContent } from "./styles";
@@ -12,28 +12,16 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { WrapperButtons } from "../../Modal/styles";
 import { Button } from "../../../components";
 import { useForm } from "react-hook-form";
-import { EditableTask, Task } from "../../../interfaces";
-
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-const top100Films = [
-  { label: "The Shawshank Redemption", year: 1994 },
-  { label: "The Godfather", year: 1972 },
-  { label: "The Godfather: Part II", year: 1974 },
-  { label: "The Dark Knight", year: 2008 },
-  { label: "The Witcher 3", year: 2008 },
-];
+import { EditableTask, Group, Task } from "../../../interfaces";
+import { getGroupById, getGroups } from "../../../api";
 
 interface IFormTask {
   checked: boolean;
   setChecked: (value: boolean) => void;
   task?: Task;
   onEdit?: (data: EditableTask) => void;
+  onCreate?: (data: EditableTask) => void;
   type: "edit" | "register";
-}
-
-interface FilmOptionType {
-  label: string;
-  year: number;
 }
 
 export const FormTask: React.FC<IFormTask> = ({
@@ -41,9 +29,38 @@ export const FormTask: React.FC<IFormTask> = ({
   setChecked,
   task,
   onEdit,
+  onCreate,
   type,
 }) => {
   const theme = useTheme() as Theme;
+  const [groupOwner, setGroupOwner] = useState<Group | null>(null);
+  const [selected, setSelected] = useState({ label: "", GroupId: 0 });
+  const [groups, setGroups] = useState<Group[]>([]);
+
+  const getAllGroups = async () => {
+    try {
+      const { data } = await getGroups();
+      setGroups(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getGroupOwner = async () => {
+    try {
+      if (task && type === "edit") {
+        const { data } = await getGroupById(task.GroupId);
+        setSelected({ label: data.title, GroupId: data.GroupId });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllGroups();
+    getGroupOwner();
+  }, []);
 
   const CustomTextField = styled(TextField)({
     ".css-1c2i806-MuiFormLabel-root-MuiInputLabel-root": {
@@ -105,7 +122,9 @@ export const FormTask: React.FC<IFormTask> = ({
   });
 
   const flatProps = {
-    options: top100Films.map((option: FilmOptionType) => option.label),
+    options: groups.map((option: Group) => {
+      return { label: option.title, GroupId: option.GroupId };
+    }),
   };
 
   const [date, setDate] = useState<Dayjs>(
@@ -130,25 +149,27 @@ export const FormTask: React.FC<IFormTask> = ({
     formState: { errors },
   } = useForm();
 
+  const handleChange = (e: any, v: any) => {
+    setSelected(v);
+  };
+
   const onSubmit = (data: any) => {
     if (type === "edit" && onEdit) {
       const edited_task = {
         title: data.title,
-        limitTime: addDays(new Date(date.toString()), -1).toISOString(),
-        GroupId: {
-          title: data.group,
-        },
+        limitTime: new Date(date.toString()).toISOString(),
+        GroupId: selected?.GroupId,
       };
       onEdit(edited_task);
-    } else {
+    } else if (type === "register" && onCreate) {
       const created_task = {
         title: data.title,
-        limitTime: addDays(new Date(date.toString()), -1).toISOString(),
-        GroupId: {
-          title: data.group,
-        },
+        limitTime: new Date(date.toString()).toISOString(),
+        GroupId: selected?.GroupId,
       };
-      console.log("register: ", created_task);
+      onCreate(created_task);
+    } else {
+      console.error("error: method not accpeted");
     }
   };
 
@@ -169,14 +190,16 @@ export const FormTask: React.FC<IFormTask> = ({
           <CustomAutocomplete
             {...flatProps}
             id="flat-demo"
-            defaultValue={task?.GroupId.title}
+            defaultValue={selected?.label}
+            value={selected?.label}
+            onChange={handleChange}
             renderInput={(params) => (
               <CustomTextField
                 {...params}
                 label="Grupos"
                 variant="standard"
-                defaultValue={task?.GroupId.title}
-                {...register("group", { value: task?.GroupId.title })}
+                defaultValue={selected?.label}
+                {...register("group", { value: selected?.label })}
               />
             )}
           />

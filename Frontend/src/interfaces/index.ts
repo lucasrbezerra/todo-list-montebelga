@@ -2,26 +2,38 @@ type GroupTitle = {
   title: string;
 };
 
+export interface CreateTask {
+  title: string;
+  limitTime: string;
+  GroupId: number;
+}
+
+export interface CreateGroup {
+  title: string;
+}
+
 export interface EditableTask {
   title: string;
   limitTime: string;
-  GroupId: GroupTitle;
+  // GroupId: GroupTitle;
+  GroupId: number;
 }
 
 export interface Task {
-  id: number | string;
+  TaskId: number;
   title: string;
   limitTime: string;
   hasFinished: boolean;
-  GroupId: GroupTitle;
+  // GroupId: GroupTitle;
+  GroupId: number;
   createdAt: string;
   updatedAt: string;
 }
 
 export interface Group {
-  id: number | string;
+  GroupId: number;
   title: string;
   createdAt: string;
   updatedAt: string;
-  tasks: Task[];
+  // tasks: Task[];
 }

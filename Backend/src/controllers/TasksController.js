@@ -68,12 +68,12 @@ module.exports = {
     var data = {
       title: req.body.title,
       limitTime: req.body.limitTime,
-      GroupId: req.body.groupId,
+      GroupId: req.body.GroupId,
     };
     const sql = `
       UPDATE tasks set 
         title = COALESCE(?,title),
-        limitTime: COALESCE(?,limitTime),
+        limitTime = COALESCE(?,limitTime),
         GroupId = COALESCE(?,GroupId),
         updatedAt = COALESCE(?,updatedAt)
         WHERE TaskId = ?
@@ -87,6 +87,30 @@ module.exports = {
     ];
     db.run(sql, params, function (err, result) {
       if (err) {
+        res.status(400).json({ error: res.message });
+        return;
+      }
+      res.json({
+        message: "success",
+        data: data,
+        changes: this.changes,
+      });
+    });
+  },
+
+  async finish(req, res) {
+    var data = {
+      hasFinished: req.body.hasFinished,
+    };
+    const sql = `
+      UPDATE tasks set 
+        hasFinished = COALESCE(?,hasFinished)
+        WHERE TaskId = ?
+    `;
+    const params = [data.hasFinished, req.params.id];
+    db.run(sql, params, function (err, result) {
+      if (err) {
+        console.log(err);
         res.status(400).json({ error: res.message });
         return;
       }
@@ -124,6 +148,32 @@ module.exports = {
         message: "success",
         data: row,
       });
+    });
+  },
+
+  async findByGroup(req, res) {
+    var sql = "select * from tasks where GroupId = ?";
+    var params = [req.params.id];
+    db.all(sql, params, (err, row) => {
+      if (err) {
+        res.status(400).json({ error: err.message });
+        return;
+      }
+      res.json({
+        message: "success",
+        data: row,
+      });
+    });
+  },
+
+  async deleteAllTasks(req, res) {
+    db.run("delete from tasks", [], function (err, result) {
+      if (err) {
+        console.log("erro: ", err);
+        res.status(400).json({ error: res.message });
+        return;
+      }
+      res.json({ message: "deleted all", changes: this.changes });
     });
   },
 };

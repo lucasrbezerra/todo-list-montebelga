@@ -2,13 +2,14 @@ import { useState } from "react";
 import { Checkbox, styled } from "@mui/material";
 import { Task } from "../../../interfaces";
 import { Content, Title, Band, IconCircle, IconCircleChecked } from "./styles";
+import { finishTask } from "../../../api";
 
 interface ITaskBand {
   task: Task;
 }
 
 export const TaskBand: React.FC<ITaskBand> = ({ task }) => {
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(Boolean(task.hasFinished));
 
   const CustomCheckebox = styled(Checkbox)({
     ".MuiCheckbox-colorPrimary": {
@@ -17,8 +18,17 @@ export const TaskBand: React.FC<ITaskBand> = ({ task }) => {
     },
   });
 
-  const handleCheck = () => {
-    setChecked(!checked);
+  const handleCheck = async () => {
+    try {
+      const response = await finishTask(!checked, task.TaskId);
+      if (response.status === 200) {
+        setChecked((checked) => !checked);
+      } else {
+        console.log("error on check band");
+      }
+    } catch (error) {
+      console.log("error on check band: ", error);
+    }
   };
 
   return (

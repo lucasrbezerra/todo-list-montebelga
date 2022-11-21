@@ -11,6 +11,11 @@ export const getTasksByGroup = async (GroupId: number) => {
   return response;
 };
 
+export const getQueryTasks = async (query: string) => {
+  const response = await api.get(`/tasks/queryTasks/?${query}`);
+  return response;
+};
+
 export const createTask = async (data: CreateTask) => {
   const response = await api.post("/tasks/create", data);
   return response;
@@ -30,5 +35,10 @@ export const finishTask = async (data: boolean, TaskId: number) => {
 
 export const deleteTask = async (TaskId: number) => {
   const response = await api.delete(`/tasks/delete/${TaskId}`);
+  return response;
+};
+
+export const deleteAllByGroup = async (TaskId: number) => {
+  const response = await api.delete(`/tasks/deleteAllByGroup/${TaskId}`);
   return response;
 };

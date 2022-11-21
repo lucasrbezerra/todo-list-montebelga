@@ -11,7 +11,12 @@ routes.put("/tasks/update/:id", TasksController.edit);
 routes.patch("/tasks/finish/:id", TasksController.finish);
 routes.get("/tasks/findOne/:id", TasksController.findById);
 routes.get("/tasks/findTasksByGroup/:id", TasksController.findByGroup);
+routes.get("/tasks/queryTasks", TasksController.queryTasks);
 routes.delete("/tasks/deleteAll", TasksController.deleteAllTasks);
+routes.delete(
+  "/tasks/deleteAllByGroup/:id",
+  TasksController.deleteAllTasksByGroup
+);
 
 /* ========== GROUPS ENDPOINT'S ========== */
 routes.post("/groups/create", GroupsController.create);

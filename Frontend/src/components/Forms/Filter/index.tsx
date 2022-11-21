@@ -1,10 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { FormControlLabel, FormGroup, Checkbox } from "@mui/material";
-import styled from "@emotion/styled";
+import React, { useContext, useState } from "react";
+import {
+  FormControlLabel,
+  FormControl,
+  RadioGroup,
+  Radio,
+} from "@mui/material";
 import { useTheme } from "styled-components";
-import { FormContent, Title, Text, WrapperButtons } from "./styles";
+import { FormContent, Title, WrapperButtons } from "./styles";
 import { Theme } from "../../../themes";
 import { Button, DateRange } from "../../../components";
+import { getQueryTasks } from "../../../api";
+import { TasksContext } from "../../../contexts";
 
 type Inputs = {
   example: string;
@@ -18,17 +24,34 @@ interface IFormFilter {
 
 export const FormFilter: React.FC<IFormFilter> = ({ checked, setChecked }) => {
   const theme = useTheme() as Theme;
+  const { setTasks } = useContext(TasksContext);
 
-  const [hasFinished, setHasFineshed] = useState(false);
-  const [inProgress, setInProgress] = useState(false);
-  const [selectDate, setSelectDate] = useState({ startDate: "", endDate: "" });
+  const [value, setValue] = React.useState("allTasks");
+  const [selectDate, setSelectDate] = useState({
+    startDate: new Date().toISOString(),
+    endDate: new Date().toISOString(),
+  });
 
-  const handleFilters = () => {
-    console.log("filters: ", {
-      hasFinished,
-      inProgress,
-      selectDate,
-    });
+  const handleFilters = async () => {
+    const query = {
+      hasFinished: value === "hasFinished",
+      inProgress: value === "inProgress",
+      allTasks: value === "allTasks",
+      startDate: selectDate.startDate,
+      endDate: selectDate.endDate,
+    };
+    const params = new URLSearchParams(query as any);
+    try {
+      const response = await getQueryTasks(params.toString());
+      if (response.status === 200) {
+        setTasks(response.data.data);
+        setChecked(false);
+      } else {
+        console.error("error on get query tasks");
+      }
+    } catch (error) {
+      console.error("error on get query tasks", error);
+    }
   };
 
   const handleChangeDate = (startDate: string, endDate: string) => {
@@ -38,42 +61,39 @@ export const FormFilter: React.FC<IFormFilter> = ({ checked, setChecked }) => {
     });
   };
 
-  const CustomCheckbox = styled(Checkbox)({
-    "&.Mui-checked": {
-      color: `${theme.colors.wine} !important`,
-    },
-    ".css-i4bv87-MuiSvgIcon-root": {
-      fill: `${theme.colors.wine} !important`,
-    },
-  });
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue((event.target as HTMLInputElement).value);
+  };
 
   return (
     <FormContent>
       <Title>Status</Title>
-      <FormGroup>
-        <FormControlLabel
-          control={
-            <CustomCheckbox
-              color="primary"
-              value={hasFinished}
-              checked={hasFinished}
-              onChange={() => setHasFineshed(!hasFinished)}
-            />
-          }
-          label={<Text>Tarefas concluídas</Text>}
-        />
-        <FormControlLabel
-          control={
-            <CustomCheckbox
-              color="primary"
-              value={inProgress}
-              checked={inProgress}
-              onChange={() => setInProgress(!inProgress)}
-            />
-          }
-          label={<Text>Tarefas em andamento</Text>}
-        />
-      </FormGroup>
+      <FormControl>
+        <RadioGroup
+          aria-labelledby="demo-radio-buttons-group-label"
+          defaultValue="allTasks"
+          name="radio-buttons-group"
+          value={value}
+          onChange={handleChange}
+          style={{ color: theme.colors.darkWhite }}
+        >
+          <FormControlLabel
+            value="allTasks"
+            control={<Radio style={{ color: theme.colors.wine }} />}
+            label="Todas as tarefas"
+          />
+          <FormControlLabel
+            value="hasFinished"
+            control={<Radio style={{ color: theme.colors.wine }} />}
+            label="Tarefas concluidas"
+          />
+          <FormControlLabel
+            value="inProgress"
+            control={<Radio style={{ color: theme.colors.wine }} />}
+            label="Tarefas em andamento"
+          />
+        </RadioGroup>
+      </FormControl>
       <Title>Período</Title>
       <DateRange onChange={handleChangeDate} />
       <WrapperButtons>

@@ -11,10 +11,15 @@ import { Content, Title, Wrapper } from "./styles";
 
 interface IToolbar {
   title: string;
+  hiddenFilters: boolean;
   onSearch: (value: string) => void;
 }
 
-export const Toolbar: React.FC<IToolbar> = ({ title, onSearch }) => {
+export const Toolbar: React.FC<IToolbar> = ({
+  title,
+  onSearch,
+  hiddenFilters = false,
+}) => {
   const [openModal, setOpenModal] = useState(false);
 
   const handleOpenFilters = () => {
@@ -32,10 +37,12 @@ export const Toolbar: React.FC<IToolbar> = ({ title, onSearch }) => {
       <Title>{title}</Title>
       <Wrapper>
         <SearchBar onSearch={onSearch} />
-        <ButtonChip onClick={handleOpenFilters}>
-          <Icon className="fas fa-filter"></Icon>
-          <p>Filtros</p>
-        </ButtonChip>
+        {!hiddenFilters && (
+          <ButtonChip onClick={handleOpenFilters}>
+            <Icon className="fas fa-filter"></Icon>
+            <p>Filtros</p>
+          </ButtonChip>
+        )}
       </Wrapper>
     </Content>
   );

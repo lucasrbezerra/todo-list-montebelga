@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Checkbox } from "@mui/material";
-import { EditableTask, Group, Task } from "../../../interfaces";
+import { CreateTask, Group, Task } from "../../../interfaces";
 import { getFormatedDate } from "../../../services";
 import {
   ActionsWrapper,
@@ -79,7 +79,7 @@ export const CardTask: React.FC<ICardTask> = ({ task, tasks, setTasks }) => {
     }
   };
 
-  const onEdit = async (new_task: EditableTask) => {
+  const onEdit = async (new_task: CreateTask) => {
     try {
       const response = await editTask(new_task, task.TaskId);
       if (response.status === 200) {

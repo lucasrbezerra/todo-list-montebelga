@@ -43,7 +43,7 @@ export function Groups() {
 
   return (
     <>
-      <Toolbar title="Lista de grupos" onSearch={onSearch} />
+      <Toolbar title="Lista de grupos" onSearch={onSearch} hiddenFilters />
       <Main>
         <Grid container spacing={3}>
           <TransitionGroup {...groupTransitionProps} component={null}>

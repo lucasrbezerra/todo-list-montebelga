@@ -9,7 +9,7 @@ import {
   FormGroup,
 } from "../../components";
 import { TasksContext, GroupsContext } from "../../contexts";
-import { EditableTask } from "../../interfaces";
+import { CreateTask, CreateGroup } from "../../interfaces";
 import { NavbarContent, Wrapper } from "./styles";
 
 interface INavbar {}
@@ -25,7 +25,7 @@ export const Navbar: React.FC<INavbar> = ({}) => {
   const [openModal, setOpenModal] = useState(false);
   const [modalType, setModalType] = useState("task");
 
-  const onCreateTask = async (new_task: EditableTask) => {
+  const onCreateTask = async (new_task: CreateTask) => {
     try {
       const response = await createTask(new_task);
       if (response.status === 200) {
@@ -40,9 +40,9 @@ export const Navbar: React.FC<INavbar> = ({}) => {
     }
   };
 
-  const onCreateGroup = async (new_group: string) => {
+  const onCreateGroup = async (group: CreateGroup) => {
     try {
-      const response = await createGroup({ title: new_group });
+      const response = await createGroup(group);
       if (response.status === 200) {
         const new_group = response.data.data;
         setGroups((groups) => [...groups, new_group]);

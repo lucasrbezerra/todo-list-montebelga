@@ -1,14 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { Collapse, Grid } from "@mui/material";
 import { CardTask, Main, Toolbar } from "../components";
-import { Task } from "../interfaces";
 import { TransitionGroup } from "react-transition-group";
 import { getTasks } from "../api";
 import { TasksContext } from "../contexts";
 
 export function Tasks() {
   const { tasks, setTasks } = useContext(TasksContext);
-  const [search, setSearch] = useState<string>("");
+  const [input, setInput] = useState<string>("");
 
   const getAllTasks = async () => {
     try {
@@ -29,20 +28,24 @@ export function Tasks() {
     exit: true,
   };
 
-  const onSearch = (value: string) => {
-    setSearch(value);
+  const onSearch = (search: string) => {
+    setInput(search);
   };
 
   const filtered_tasks =
-    search.length > 0
+    input.length > 0
       ? tasks.filter((task) =>
-          task.title.toLowerCase().includes(search.toLowerCase())
+          task.title.toLowerCase().includes(input.toLowerCase())
         )
       : tasks;
 
   return (
     <>
-      <Toolbar title="Lista de tarefas" onSearch={onSearch} />
+      <Toolbar
+        title="Lista de tarefas"
+        onSearch={onSearch}
+        hiddenFilters={false}
+      />
       <Main>
         <Grid container spacing={3}>
           <TransitionGroup {...groupTransitionProps} component={null}>

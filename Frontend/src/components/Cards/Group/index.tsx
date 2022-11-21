@@ -20,7 +20,13 @@ import {
   TaskBand,
 } from "../../../components";
 import { useEffect, useState } from "react";
-import { deleteGroup, editGroup, getTasksByGroup } from "../../../api";
+import {
+  deleteAllByGroup,
+  deleteGroup,
+  editGroup,
+  getTasksByGroup,
+} from "../../../api";
+import { Link } from "react-router-dom";
 
 interface ICardGroup {
   group: Group;
@@ -58,11 +64,14 @@ export const CardGroup: React.FC<ICardGroup> = ({
     try {
       const response = await deleteGroup(group.GroupId);
       if (response.status === 200) {
-        const index = groups.indexOf(group);
-        let sliced_groups = [...groups];
-        sliced_groups.splice(index, 1);
-        setGroups(sliced_groups);
-        setOpenDialog(false);
+        const response_tasks = await deleteAllByGroup(group.GroupId);
+        if (response_tasks.status === 200) {
+          const index = groups.indexOf(group);
+          let sliced_groups = [...groups];
+          sliced_groups.splice(index, 1);
+          setGroups(sliced_groups);
+          setOpenDialog(false);
+        }
       } else {
         console.log("error on delete group");
       }
@@ -150,7 +159,9 @@ export const CardGroup: React.FC<ICardGroup> = ({
         })}
       </TasksContent>
       <Footer>
-        <SeeMore>Ver mais tarefas</SeeMore>
+        <Link to="/tasks" style={{ textDecoration: "none" }}>
+          <SeeMore>Ver mais tarefas</SeeMore>
+        </Link>
       </Footer>
     </Content>
   );

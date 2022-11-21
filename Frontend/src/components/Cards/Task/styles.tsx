@@ -26,7 +26,8 @@ export const GroupId = styled.div`
   top: -1.5rem;
   left: 1.5rem;
 
-  width: 13rem;
+  min-width: 13rem;
+  max-width: 25rem;
   padding: 0.6rem 1rem;
   border-radius: 5rem;
   background: ${({ theme }) => theme.colors.lightBlue};

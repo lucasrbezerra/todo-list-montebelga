@@ -11,10 +11,13 @@ const TYPES = {
 };
 
 export const Sidebar: React.FC<ISidebar> = ({}) => {
-  const [currentPage, setCurrentPage] = useState(TYPES["TASKS"]);
+  const [currentPage, setCurrentPage] = useState(
+    localStorage.getItem("currentPage") || TYPES["TASKS"]
+  );
 
   const handleChangePage = (page: string) => {
     setCurrentPage(page);
+    localStorage.setItem("currentPage", page);
   };
 
   return (

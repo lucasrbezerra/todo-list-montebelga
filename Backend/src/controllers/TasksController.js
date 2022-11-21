@@ -151,6 +151,36 @@ module.exports = {
     });
   },
 
+  async queryTasks(req, res) {
+    const { hasFinished, inProgress, allTasks, startDate, endDate } = req.query;
+
+    var sql = "";
+    var params = [];
+
+    if (hasFinished === "true") {
+      sql =
+        "select * from tasks where hasFinished = ? and tasks.limitTime >= ? and tasks.limitTime <= ?";
+      params = [true, startDate, endDate];
+    } else if (inProgress === "true") {
+      sql =
+        "select * from tasks where hasFinished = ? and tasks.limitTime >= ? and tasks.limitTime <= ?";
+      params = [false, startDate, endDate];
+    } else {
+      sql = "select * from tasks";
+    }
+
+    db.all(sql, params, (err, row) => {
+      if (err) {
+        res.status(400).json({ error: err.message });
+        return;
+      }
+      res.json({
+        message: "success",
+        data: row ? row : [],
+      });
+    });
+  },
+
   async findByGroup(req, res) {
     var sql = "select * from tasks where GroupId = ?";
     var params = [req.params.id];
@@ -175,5 +205,20 @@ module.exports = {
       }
       res.json({ message: "deleted all", changes: this.changes });
     });
+  },
+
+  async deleteAllTasksByGroup(req, res) {
+    db.run(
+      "delete from tasks where GroupId = ?",
+      [req.params.id],
+      function (err, result) {
+        if (err) {
+          console.log("erro: ", err);
+          res.status(400).json({ error: res.message });
+          return;
+        }
+        res.json({ message: "deleted all by group", changes: this.changes });
+      }
+    );
   },
 };

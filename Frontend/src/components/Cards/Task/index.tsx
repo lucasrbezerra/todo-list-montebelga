@@ -28,10 +28,16 @@ import { GlobalContext } from "../../../contexts";
 interface ICardTask {
   task: Task;
   tasks: Task[];
+  input: string;
   setTasks: (tasks: Task[]) => void;
 }
 
-export const CardTask: React.FC<ICardTask> = ({ task, tasks, setTasks }) => {
+export const CardTask: React.FC<ICardTask> = ({
+  task,
+  tasks,
+  setTasks,
+  input,
+}) => {
   const { setToast } = useContext(GlobalContext);
   const [checked, setChecked] = useState(Boolean(task.hasFinished));
   const [openDialog, setOpenDialog] = useState(false);
@@ -40,7 +46,7 @@ export const CardTask: React.FC<ICardTask> = ({ task, tasks, setTasks }) => {
 
   useEffect(() => {
     setChecked(Boolean(task.hasFinished));
-  }, [tasks]);
+  }, [tasks, input]);
 
   const getGroupOwner = async () => {
     try {

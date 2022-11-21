@@ -61,7 +61,7 @@ export function Tasks() {
                   key={index}
                   component={Collapse}
                 >
-                  <CardTask task={task} tasks={tasks} setTasks={setTasks} />
+                  <CardTask task={task} tasks={tasks} setTasks={setTasks} input={input} />
                 </Grid>
               );
             })}

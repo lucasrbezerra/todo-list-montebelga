@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { SidebarButton, SidebarContent } from "./styles";
 import { Icon } from "../../components";
 
@@ -11,13 +11,15 @@ const TYPES = {
 };
 
 export const Sidebar: React.FC<ISidebar> = ({}) => {
-  const [currentPage, setCurrentPage] = useState(
-    localStorage.getItem("currentPage") || TYPES["TASKS"]
-  );
+  let location = useLocation();
+  const [currentPage, setCurrentPage] = useState(TYPES["TASKS"]);
+
+  useEffect(() => {
+    setCurrentPage(location.pathname.split("/")[1]);
+  }, [location]);
 
   const handleChangePage = (page: string) => {
     setCurrentPage(page);
-    localStorage.setItem("currentPage", page);
   };
 
   return (

@@ -6,21 +6,21 @@ import { FormContent } from "./styles";
 import dayjs, { Dayjs } from "dayjs";
 import "dayjs/locale/ru";
 import "dayjs/locale/pt";
-import { addDays } from "date-fns";
+import { addHours } from "date-fns";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { WrapperButtons } from "../../Modal/styles";
 import { Button } from "../../../components";
 import { useForm } from "react-hook-form";
-import { EditableTask, Group, Task } from "../../../interfaces";
+import { CreateTask, Group, Task } from "../../../interfaces";
 import { getGroupById, getGroups } from "../../../api";
 
 interface IFormTask {
   checked: boolean;
   setChecked: (value: boolean) => void;
   task?: Task;
-  onEdit?: (data: EditableTask) => void;
-  onCreate?: (data: EditableTask) => void;
+  onEdit?: (data: CreateTask) => void;
+  onCreate?: (data: CreateTask) => void;
   type: "edit" | "register";
 }
 
@@ -130,10 +130,7 @@ export const FormTask: React.FC<IFormTask> = ({
   const [date, setDate] = useState<Dayjs>(
     dayjs(
       type === "edit"
-        ? addDays(
-            new Date(task?.limitTime.toString() || ""),
-            task ? 1 : 0
-          ).toISOString()
+        ? addHours(new Date(task?.limitTime || ""), -3).toISOString()
         : new Date().toISOString()
     )
   );
@@ -157,14 +154,14 @@ export const FormTask: React.FC<IFormTask> = ({
     if (type === "edit" && onEdit) {
       const edited_task = {
         title: data.title,
-        limitTime: new Date(date.toString()).toISOString(),
+        limitTime: addHours(new Date(date.toString()), -3).toISOString(),
         GroupId: selected?.GroupId,
       };
       onEdit(edited_task);
     } else if (type === "register" && onCreate) {
       const created_task = {
         title: data.title,
-        limitTime: new Date(date.toString()).toISOString(),
+        limitTime: addHours(new Date(date.toString()), -3).toISOString(),
         GroupId: selected?.GroupId,
       };
       onCreate(created_task);

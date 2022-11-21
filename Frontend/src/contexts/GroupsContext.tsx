@@ -6,7 +6,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-export interface ContextValues {
+interface ContextValues {
   groups: Group[];
   setGroups: React.Dispatch<React.SetStateAction<Group[]>>;
 }

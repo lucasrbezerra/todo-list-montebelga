@@ -9,20 +9,28 @@ interface Props {
 export interface ContextValues {
   tasks: Task[];
   setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
+  checkTask: Boolean;
+  setCheckTask: React.Dispatch<React.SetStateAction<Boolean>>;
 }
 
 const initialValues = {
   tasks: [],
   setTasks: () => {},
+  checkTask: false,
+  setCheckTask: () => {},
 };
 
 const TasksContext = createContext<ContextValues>(initialValues);
 
 const TasksProvider: React.FC<Props> = ({ children }) => {
-  const { tasks, setTasks } = useTasks(initialValues as ContextValues);
+  const { tasks, setTasks, checkTask, setCheckTask } = useTasks(
+    initialValues as ContextValues
+  );
 
   return (
-    <TasksContext.Provider value={{ tasks, setTasks } as ContextValues}>
+    <TasksContext.Provider
+      value={{ tasks, setTasks, checkTask, setCheckTask } as ContextValues}
+    >
       {children}
     </TasksContext.Provider>
   );

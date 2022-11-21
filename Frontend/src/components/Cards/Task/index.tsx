@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Checkbox } from "@mui/material";
 import { CreateTask, Group, Task } from "../../../interfaces";
 import { getFormatedDate } from "../../../services";
@@ -23,6 +23,7 @@ import {
 import { IconCircle, IconCircleChecked } from "../TaskBand/styles";
 import { DialogConfirm, FormTask, Modal } from "../../../components";
 import { deleteTask, editTask, finishTask, getGroupById } from "../../../api";
+import { GlobalContext } from "../../../contexts";
 
 interface ICardTask {
   task: Task;
@@ -31,23 +32,34 @@ interface ICardTask {
 }
 
 export const CardTask: React.FC<ICardTask> = ({ task, tasks, setTasks }) => {
+  const { setToast } = useContext(GlobalContext);
   const [checked, setChecked] = useState(Boolean(task.hasFinished));
   const [openDialog, setOpenDialog] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [groupOwner, setGroupOwner] = useState<Group | null>(null);
 
+  useEffect(() => {
+    setChecked(Boolean(task.hasFinished));
+  }, [tasks]);
+
   const getGroupOwner = async () => {
     try {
-      const { data } = await getGroupById(task.GroupId);
-      setGroupOwner(data);
+      const response = await getGroupById(task.GroupId);
+      setGroupOwner(response.data.data);
     } catch (error) {
       console.log(error);
+      setGroupOwner({
+        title: "Sem grupo",
+        GroupId: -1,
+        createdAt: "",
+        updatedAt: "",
+      });
     }
   };
 
   useEffect(() => {
     getGroupOwner();
-  }, []);
+  }, [tasks]);
 
   const handleCheck = async () => {
     try {
@@ -71,11 +83,26 @@ export const CardTask: React.FC<ICardTask> = ({ task, tasks, setTasks }) => {
         sliced_tasks.splice(index, 1);
         setTasks(sliced_tasks);
         setOpenDialog(false);
+        setToast({
+          open: true,
+          type: "warning",
+          message: "Tarefa deletada com sucesso!",
+        });
       } else {
         console.error("error on delete task");
+        setToast({
+          open: true,
+          type: "error",
+          message: "Erro ao deletar tarefa!",
+        });
       }
     } catch (error) {
       console.error(error);
+      setToast({
+        open: true,
+        type: "error",
+        message: "Erro ao deletar tarefa!",
+      });
     }
   };
 
@@ -91,11 +118,26 @@ export const CardTask: React.FC<ICardTask> = ({ task, tasks, setTasks }) => {
         edit_tasks[index].updatedAt = new Date().toISOString();
         setTasks(edit_tasks);
         setOpenModal(false);
+        setToast({
+          open: true,
+          type: "info",
+          message: "Tarefa editada com sucesso!",
+        });
       } else {
         console.error("error on edit task");
+        setToast({
+          open: true,
+          type: "error",
+          message: "Erro ao editar tarefa!",
+        });
       }
     } catch (error) {
       console.error("error on edit task");
+      setToast({
+        open: true,
+        type: "error",
+        message: "Erro ao editar tarefa!",
+      });
     }
   };
 

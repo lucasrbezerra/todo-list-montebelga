@@ -158,13 +158,23 @@ module.exports = {
     var params = [];
 
     if (hasFinished === "true") {
-      sql =
-        "select * from tasks where hasFinished = ? and tasks.limitTime >= ? and tasks.limitTime <= ?";
-      params = [true, startDate, endDate];
+      if (startDate !== endDate) {
+        sql =
+          "select * from tasks where hasFinished = ? and limitTime >= ? and limitTime <= ?";
+        params = [true, startDate, endDate];
+      } else {
+        sql = "select * from tasks where hasFinished = ?";
+        params = [true];
+      }
     } else if (inProgress === "true") {
-      sql =
-        "select * from tasks where hasFinished = ? and tasks.limitTime >= ? and tasks.limitTime <= ?";
-      params = [false, startDate, endDate];
+      if (startDate !== endDate) {
+        sql =
+          "select * from tasks where hasFinished = ? and limitTime >= ? and limitTime <= ?";
+        params = [false, startDate, endDate];
+      } else {
+        sql = "select * from tasks where hasFinished = ?";
+        params = [false];
+      }
     } else {
       sql = "select * from tasks";
     }

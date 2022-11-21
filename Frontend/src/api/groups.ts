@@ -8,7 +8,7 @@ export const getGroups = async () => {
 
 export const getGroupById = async (GroupId: number) => {
   const response = await api.get(`/groups/findOne/${GroupId}`);
-  return response.data;
+  return response;
 };
 
 export const createGroup = async (data: CreateGroup) => {

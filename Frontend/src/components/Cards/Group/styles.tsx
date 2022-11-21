@@ -88,6 +88,7 @@ export const SeeMore = styled.a`
   text-decoration: underline;
   transition: all 0.2s ease-in;
   padding: 1rem 0;
+  margin-top: 2rem;
   &:hover {
     cursor: pointer;
     color: ${({ theme }) => theme.colors.pink};

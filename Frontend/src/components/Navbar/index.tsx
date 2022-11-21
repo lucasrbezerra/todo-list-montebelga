@@ -8,7 +8,7 @@ import {
   FormTask,
   FormGroup,
 } from "../../components";
-import { TasksContext, GroupsContext } from "../../contexts";
+import { TasksContext, GroupsContext, GlobalContext } from "../../contexts";
 import { CreateTask, CreateGroup } from "../../interfaces";
 import { NavbarContent, Wrapper } from "./styles";
 
@@ -22,6 +22,7 @@ const MODAL_TYPE = {
 export const Navbar: React.FC<INavbar> = ({}) => {
   const { setTasks } = useContext(TasksContext);
   const { setGroups } = useContext(GroupsContext);
+  const { setToast } = useContext(GlobalContext);
   const [openModal, setOpenModal] = useState(false);
   const [modalType, setModalType] = useState("task");
 
@@ -32,11 +33,26 @@ export const Navbar: React.FC<INavbar> = ({}) => {
         const new_task = response.data.data;
         setTasks((tasks) => [...tasks, new_task]);
         setOpenModal(false);
+        setToast({
+          open: true,
+          type: "success",
+          message: "Tarefa criada com sucesso!",
+        });
       } else {
         console.error("error creating task");
+        setToast({
+          open: true,
+          type: "error",
+          message: "Erro ao criar tarefa!",
+        });
       }
     } catch (error) {
       console.error(error);
+      setToast({
+        open: true,
+        type: "error",
+        message: "Erro ao criar tarefa!",
+      });
     }
   };
 
@@ -47,11 +63,26 @@ export const Navbar: React.FC<INavbar> = ({}) => {
         const new_group = response.data.data;
         setGroups((groups) => [...groups, new_group]);
         setOpenModal(false);
+        setToast({
+          open: true,
+          type: "success",
+          message: "Grupo criado com sucesso!",
+        });
       } else {
         console.error("error creating groups");
+        setToast({
+          open: true,
+          type: "error",
+          message: "Erro ao criar grupo!",
+        });
       }
     } catch (error) {
       console.error(error);
+      setToast({
+        open: true,
+        type: "error",
+        message: "Erro ao criar grupo!",
+      });
     }
   };
 

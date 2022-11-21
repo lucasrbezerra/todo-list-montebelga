@@ -19,7 +19,7 @@ import {
   Modal,
   TaskBand,
 } from "../../../components";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   deleteAllByGroup,
   deleteGroup,
@@ -27,6 +27,7 @@ import {
   getTasksByGroup,
 } from "../../../api";
 import { Link } from "react-router-dom";
+import { GlobalContext } from "../../../contexts";
 
 interface ICardGroup {
   group: Group;
@@ -39,6 +40,7 @@ export const CardGroup: React.FC<ICardGroup> = ({
   groups,
   setGroups,
 }) => {
+  const { setToast } = useContext(GlobalContext);
   const [openDialog, setOpenDialog] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [tasksGroup, setTasksGroups] = useState<Task[]>([]);
@@ -71,12 +73,27 @@ export const CardGroup: React.FC<ICardGroup> = ({
           sliced_groups.splice(index, 1);
           setGroups(sliced_groups);
           setOpenDialog(false);
+          setToast({
+            open: true,
+            type: "warning",
+            message: "Grupo deletado com sucesso!",
+          });
         }
       } else {
         console.log("error on delete group");
+        setToast({
+          open: true,
+          type: "error",
+          message: "Erro ao deletar grupo!",
+        });
       }
     } catch (error) {
       console.log("error on delete group", error);
+      setToast({
+        open: true,
+        type: "error",
+        message: "Erro ao deletar grupo!",
+      });
     }
   };
 
@@ -90,11 +107,26 @@ export const CardGroup: React.FC<ICardGroup> = ({
         edit_groups[index].updatedAt = new Date().toISOString();
         setGroups(edit_groups);
         setOpenModal(false);
+        setToast({
+          open: true,
+          type: "info",
+          message: "Grupo editado com sucesso!",
+        });
       } else {
         console.log("error on edit group");
+        setToast({
+          open: true,
+          type: "error",
+          message: "Erro ao editar grupo!",
+        });
       }
     } catch (error) {
       console.log("error on edit group", error);
+      setToast({
+        open: true,
+        type: "error",
+        message: "Erro ao editar grupo!",
+      });
     }
   };
 
@@ -160,7 +192,9 @@ export const CardGroup: React.FC<ICardGroup> = ({
       </TasksContent>
       <Footer>
         <Link to="/tasks" style={{ textDecoration: "none" }}>
-          <SeeMore>Ver mais tarefas</SeeMore>
+          <SeeMore onClick={() => localStorage.setItem("currentPage", "tasks")}>
+            Ver mais tarefas
+          </SeeMore>
         </Link>
       </Footer>
     </Content>
